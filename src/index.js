@@ -6,9 +6,10 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import reduxThunk from 'redux-thunk';
 import { SnackbarProvider } from 'notistack';
+import NotificationProvider from './providers/NotificationProvider';
 import App from "./App";
 
-// Global CSS
+// CSS Reset (normalize)
 import "./index.css";
 
 // Importing all the reducers to pass in the store
@@ -31,7 +32,9 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <SnackbarProvider>
-        <App />
+        <NotificationProvider>
+          <App />
+        </NotificationProvider>
       </SnackbarProvider>
     </Router>
   </Provider>, 

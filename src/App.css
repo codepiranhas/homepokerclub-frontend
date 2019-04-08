@@ -1,0 +1,42 @@
+/* Variables */
+:root {
+  --col-main: #eee;
+}
+
+#root {
+  /* width: 100vw; */
+  height: calc(100vh - 60px);
+
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+
+  background: rgb(57,139,28);
+  background: radial-gradient(circle, rgba(57,139,28,1) 0%, rgba(31,85,26,1) 100%);
+
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Margins */
+.tight-margin-top { margin-top: 10px }
+.tight-margin-right { margin-right: 10px }
+.tight-margin-bottom { margin-bottom: 10px }
+.tight-margin-left { margin-left: 10px }
+
+.margin-top { margin-top: 30px }
+.margin-right { margin-right: 30px }
+.margin-bottom { margin-bottom: 30px }
+.margin-left { margin-left: 30px }
+
+.wide-margin-top { margin-top: 50px }
+.wide-margin-right { margin-right: 50px }
+.wide-margin-bottom { margin-bottom: 50px }
+.wide-margin-left { margin-left: 50px }
+
+
+
+/* Misc */
+.card-look {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+}

@@ -12,11 +12,11 @@ console.log('===> NODE_ENV @ KEYS: ', process.env.NODE_ENV);
 console.log('===> REACT_APP_STAGE @ KEYS: ', process.env.REACT_APP_STAGE);
 
 const dev = {
-  backendUrl: 'https://bestplanapp-dev.herokuapp.com' // TODO: Change it to the correct one
+  backendUrl: 'https://homepokerclub-development.herokuapp.com'
 }
 
 const production = {
-  backendUrl: 'https://bestplanapp-production.herokuapp.com' // TODO: Change it to the correct one
+  backendUrl: 'https://homepokerclub-production.herokuapp.com' // TODO: Change it to the correct one
 }
 
 const config = process.env.REACT_APP_STAGE === 'production'
@@ -32,7 +32,7 @@ if (process.env.REACT_APP_BACKEND) {
 
   config.backendUrl = input[1]
     ? `http://localhost:${input[1]}`
-    : `https://bestplanapp-${input[0]}.herokuapp.com` // TODO: Change it to the correct one
+    : `https://homepokerclub-${input[0]}.herokuapp.com` // TODO: Change it to the correct one
 }
 
 /**

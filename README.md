@@ -1,1 +1,1 @@
-# React-redux boilerplate with authentication flow
+# A tournament manager for home poker games.

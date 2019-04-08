@@ -49,6 +49,7 @@ function login(user) {
         }
       })
       .catch(err => {
+        console.log('err: ', err);
         console.log('err @ actions: ', err.response);
         throw err.response.data.message;
       })

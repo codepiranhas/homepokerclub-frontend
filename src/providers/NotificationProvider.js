@@ -1,9 +1,9 @@
 import React from 'react';
 import { withSnackbar } from 'notistack';
 
-export const NotificationsContext = React.createContext();
+export const NotificationContext = React.createContext();
 
-class NotificationsProvider extends React.Component {
+class NotificationProvider extends React.Component {
   constructor(props) {
     super(props);
 
@@ -24,11 +24,11 @@ class NotificationsProvider extends React.Component {
 
   render() {
     return (
-      <NotificationsContext.Provider value={this.state}>
+      <NotificationContext.Provider value={this.state}>
         {this.props.children}
-      </NotificationsContext.Provider>
+      </NotificationContext.Provider>
     );
   }
 }
 
-export default withSnackbar(NotificationsProvider);
+export default withSnackbar(NotificationProvider);

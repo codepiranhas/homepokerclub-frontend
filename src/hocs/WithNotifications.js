@@ -1,5 +1,5 @@
 import React from 'react';
-import { NotificationsContext } from '../providers/NotificationsProvider';
+import { NotificationContext } from '../providers/NotificationProvider';
 
 // This function takes a component...
 export function withNotifications(Component) {
@@ -8,9 +8,9 @@ export function withNotifications(Component) {
     // ... and renders the wrapped component with the context state!
     // Notice that we pass through any additional props as well
     return (
-      <NotificationsContext.Consumer>
+      <NotificationContext.Consumer>
         {state => <Component {...props} notifications={state} />}
-      </NotificationsContext.Consumer>
+      </NotificationContext.Consumer>
     );
   };
 }

@@ -1,0 +1,78 @@
+:root {
+  --admin-header-height: 70px;
+  --admin-footer-height: 70px;
+  --admin-nav-width: 250px;
+  --spacing: 1em;
+}
+
+
+
+
+
+
+.home__grid-container {
+  overflow: scroll;
+  /* width: 100vw; */
+  display: grid;
+  grid-template-rows: minmax(150px,200px) minmax(150px, 250px) minmax(150px, 250px) minmax(150px, 250px) minmax(150px, 250px);
+  grid-template-columns: minmax(250px,250px) minmax(200px, 250px) minmax(200px, 250px) minmax(200px, 250px) minmax(200px, 250px);
+  grid-gap: var(--spacing);
+  grid-template-areas:  "club capsule1 capsule2 capsule3 capsule4"
+                        "club tournaments tournaments tournaments members"
+                        "club tournaments tournaments tournaments members"
+                        "club statistics1 statistics2 statistics3 statistics4"
+}
+
+.grid-item--club { grid-area: club; }
+
+.grid-item--capsule1 { grid-area: capsule1; }
+.grid-item--capsule2 { grid-area: capsule2; }
+.grid-item--capsule3 { grid-area: capsule3; }
+.grid-item--capsule4 { grid-area: capsule4; }
+.grid-item--capsule4 { grid-area: capsule5; }
+
+.grid-item--tournaments {
+  grid-area: tournaments;
+  overflow-x: scroll;
+  display: flex;
+
+}
+
+.grid-item--members { grid-area: members }
+
+.grid-item--statistics1 { grid-area: statistics1; }
+.grid-item--statistics2 { grid-area: statistics2; }
+.grid-item--statistics3 { grid-area: statistics3; } 
+.grid-item--statistics4 { grid-area: statistics4; } 
+
+@media screen and (max-width: 839px) {
+  .home__grid-container {
+    grid-template-rows: repeat(8, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:  "club capsule1 capsule2"
+                          "club capsule3 capsule4"
+                          "club tournaments tournaments"
+                          "club tournaments tournaments"
+                          "club members members"
+                          "club members members"
+                          "club statistics1 statistics2"
+                          "club statistics3 statistics4"
+  }
+}
+
+
+@media screen and (max-width: 480px) {
+  .home__grid-container {
+    grid-template-rows: repeat(7, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:  "club club"
+                          "capsule1 capsule2"
+                          "capsule3 capsule4"
+                          "tournaments tournaments"
+                          "members members"
+                          "members members"
+                          "statistics1 statistics2"
+                          "statistics3 statistics4"
+  }
+}
+

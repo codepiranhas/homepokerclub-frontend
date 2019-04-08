@@ -1,14 +1,13 @@
 import React, { Component, Fragment } from "react";
 import { Link, withRouter } from "react-router-dom";
-import "./App.css";
 import { connect } from 'react-redux';
 import { userActions } from './actions';
-
-// ===== APP ROUTES ===== //
 import Routes from "./routes/Routes";
 
-// ===== STATE MANAGEMENT WITH REACT 16 CONTEXT API ===== //
-import NotificationsProvider from './providers/NotificationsProvider';
+/**
+ * Global CSS configuration
+ */
+import "./App.css";
 
 /**
  * FONT AWESOME ICON LIBRARY
@@ -29,7 +28,6 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    console.log('componentDidMount @ App.js fired!');
     this.setState({ isAuthenticating: false });
   }
 
@@ -41,26 +39,9 @@ class App extends Component {
 
   render() {
     return (
-      !this.state.isAuthenticating &&
-        <div className="">
-          {this.props.user.token
-          ? <Fragment>
-            <h3><Link to="/account">Account</Link></h3>
-              <button onClick={this.handleLogout}>Logout</button>
-            </Fragment>
-
-          : <Fragment>
-              {/* You are not logged in
-              <h3><Link to="/login">Login</Link></h3>
-              <h3><Link to="/signup">Signup</Link></h3>
-              <h3><Link to="/account">Account</Link></h3> */}
-            </Fragment>
-          }
-
-          <NotificationsProvider>
-            <Routes />
-          </NotificationsProvider>
-        </div>
+      
+        <Routes />
+      
     );
   }
 }
