@@ -1,0 +1,17 @@
+# Global settings applied to the whole site.
+# [build]
+  # command = "npm build"
+  # publish = "public"
+
+# build a preview of the site (Drafts and Future dates also)
+# [context.deploy-preview]
+  # command = "yarn build:preview"
+
+# [build.environment]
+#   HUGO_ENV = "development"
+
+[context.production.environment]
+  REACT_APP_STAGE = "production"
+
+[context.master.environment]
+  REACT_APP_STAGE = "development"
