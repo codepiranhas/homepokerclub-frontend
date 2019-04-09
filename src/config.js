@@ -9,9 +9,9 @@
 *
 */
 console.log('===> NODE_ENV @ KEYS: ', process.env.NODE_ENV);
-console.log('===> REACT_APP_STAGE @ KEYS: ', process.env.REACT_APP_STAGE);
+console.log('===> REACT_APP_ENV @ KEYS: ', process.env.REACT_APP_ENV);
 
-const dev = {
+const development = {
   backendUrl: 'https://homepokerclub-development.herokuapp.com'
 }
 
@@ -19,9 +19,9 @@ const production = {
   backendUrl: 'https://homepokerclub-production.herokuapp.com' // TODO: Change it to the correct one
 }
 
-const config = process.env.REACT_APP_STAGE === 'production'
+const config = process.env.REACT_APP_ENV === 'production'
   ? production
-  : dev
+  : development
 
 
 /**

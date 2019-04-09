@@ -11,7 +11,7 @@
 #   HUGO_ENV = "development"
 
 [context.master.environment]
-  REACT_APP_STAGE = "production"
+  REACT_APP_ENV = "production"
 
 [context.development.environment]
-  REACT_APP_STAGE = "development"
+  REACT_APP_ENV = "development"
