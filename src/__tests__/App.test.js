@@ -10,5 +10,5 @@ beforeEach(() => {
 
 it('shows a comment box', () => {
   let x = 1;
-  expect(x).toEqual(1);
+  expect(x).toEqual(2);
 });
