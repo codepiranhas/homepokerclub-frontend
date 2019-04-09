@@ -1,1 +1,1 @@
-# A tournament manager for home poker games.
+# A tournament manager for home poker games!
