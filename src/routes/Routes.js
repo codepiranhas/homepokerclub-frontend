@@ -27,17 +27,19 @@ const Router = ({ childProps, location }) => {
     withMenuBar = true;
   }
 
+  const tabs = [
+    { name: 'My Clubs', url: '/clubs', icon: 'coins' },
+    { name: 'My Tournaments', url: '/tournaments', icon: 'futbol' },
+    { name: 'My Account', url: '/account', icon: 'pencil-alt' },
+  ]
+
   return (
     <>
     { withMenuBar && 
-
-      <Menubar />
-        // <Menu>
-        //   <a id="home" className="menu-item" href="/">Home</a>
-        //   <a id="about" className="menu-item" href="/about">About</a>
-        //   <a id="contact" className="menu-item" href="/account">Account</a>
-        //   <a onClick={ childProps.showSettings } className="menu-item--small" href="">Settings</a>
-        // </Menu>
+      <Menubar
+        activeTab={location.pathname}
+        tabs={tabs}
+      />
       }
       <Switch>
         <AuthenticatedRoute path="/" exact component={Home} props={childProps} />

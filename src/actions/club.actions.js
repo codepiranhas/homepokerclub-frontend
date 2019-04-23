@@ -1,15 +1,15 @@
 import httpRequest from '../helpers/httpRequest';
-import { 
-  CLUB_CREATE
-} from './types';
+// import {
+//   CLUB_CREATE
+// } from './types';
 
 export const clubActions = {
-  createClub
+  createClub,
 };
 
 function createClub(club) {
   return function(dispatch) {
-    return httpRequest('POST', '/clubs/create', club)
+    return httpRequest('POST', '/v1/clubs/create', club)
       .then(user => {
         console.log('club: ', club);
         return club;
@@ -18,6 +18,6 @@ function createClub(club) {
         console.log('err: ', err.response);
         const errorMessage = err.response.data.message;
         throw errorMessage;
-      })
-  }
+      });
+  };
 }

@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
 import { withNotifications } from "../../hocs/WithNotifications";
-import styled from "styled-components";
-import { colors } from "../../variables/colors";
+// import styled from "styled-components";
+// import { colors } from "../../variables/colors";
 import { userActions, clubActions } from "../../actions";
 
-import Placeholder from "../../components/Placeholder/Placeholder";
+// import Placeholder from "../../components/Placeholder/Placeholder";
 
-import Club from "../Club/Club";
+// import Club from "../Club/Club";
 
 import Button from '@material-ui/core/Button';
 
