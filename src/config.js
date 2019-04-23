@@ -27,8 +27,8 @@ const config = process.env.REACT_APP_ENV === 'production'
 /**
 * Overwrite config.backendUrl if custom input has been set from the console
 */
-if (process.env.REACT_APP_BACKEND) {
-  const input = process.env.REACT_APP_BACKEND.split(':');
+if (process.env.REACT_APP_ENV) {
+  const input = process.env.REACT_APP_ENV.split(':');
 
   config.backendUrl = input[1]
     ? `http://localhost:${input[1]}`

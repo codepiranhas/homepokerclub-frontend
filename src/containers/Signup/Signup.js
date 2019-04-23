@@ -75,9 +75,7 @@ class Signup extends Component {
         this.setState({ signedUp: true });
       })
       .catch(err => { 
-        console.log('this.props: ', this.props);
-        this.props.notifications.showError(err);
-        // this.createNotification({ text: err, type: 'error' })
+        this.props.notifications.showError(err.response.data.message);
       })
   };
 

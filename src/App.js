@@ -1,13 +1,14 @@
-import React, { Component, Fragment } from "react";
-import { Link, withRouter } from "react-router-dom";
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { userActions } from './actions';
-import Routes from "./routes/Routes";
+import Routes from './routes/Routes';
+import ErrorBoundary from './helpers/ErrorBoundary';
 
 /**
  * Global CSS configuration
  */
-import "./App.css";
+import './App.css';
 
 /**
  * FONT AWESOME ICON LIBRARY
@@ -18,12 +19,11 @@ import { faTrashAlt, faPencilAlt, faSyncAlt, faFutbol, faTrophy, faCoins } from 
 library.add(faTrashAlt, faPencilAlt, faSyncAlt, faFutbol, faTrophy, faCoins);
 
 class App extends Component {
-
   constructor(props) {
     super(props);
-  
+
     this.state = {
-      isAuthenticating: true
+      isAuthenticating: true,
     };
   }
 
@@ -35,19 +35,24 @@ class App extends Component {
     console.log('this.props.dispatch: ', this.props.dispatch);
     console.log('userActions: ', userActions);
     this.props.logout(this.props.user);
-  }
+  };
 
   render() {
     return (
-      
+      <ErrorBoundary>
         <Routes />
-      
+      </ErrorBoundary>
     );
   }
 }
 
- function mapStateToProps({ user }) {
+function mapStateToProps({ user }) {
   return { user };
- }
+}
 
-export default withRouter(connect(mapStateToProps, userActions)(App));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    userActions
+  )(App)
+);
