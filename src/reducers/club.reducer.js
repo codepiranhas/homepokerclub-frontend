@@ -5,7 +5,7 @@ import {
 const defaultState = {};
 
 export default function(state = defaultState, action) {
-  console.log('action @ club.reducer: ', action);
+  // console.log('action @ club.reducer: ', action);
 
   switch (action.type) {
     case CLUB_CREATE:

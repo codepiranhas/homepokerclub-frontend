@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -17,7 +18,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
-import styled from 'styled-components';
+import Placeholder from '../Placeholder/Placeholder';
+
 
 const drawerWidth = 240;
 
@@ -33,6 +35,7 @@ const styles = theme => ({
   },
   appBar: {
     marginLeft: drawerWidth,
+    backgroundColor: '#0f0c29',
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
     },
@@ -44,18 +47,20 @@ const styles = theme => ({
     },
   },
   toolbar: theme.mixins.toolbar,
+
   drawerPaper: {
     width: drawerWidth,
+    backgroundColor: '#0f0c2920',
+    color: '#eee'
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  icon: {
+    color: '#eee'
+  }
 });
-
-const Div = styled.div`
-background-color: red;
-`
 
 class ResponsiveDrawer extends React.Component {
   state = {
@@ -67,18 +72,31 @@ class ResponsiveDrawer extends React.Component {
   };
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, children, app } = this.props;
+
+    console.log('this.props @ sidebar: ', this.props)
 
     const drawer = (
       <div>
-        <div className={classes.toolbar} />
-        LOGO IMAGE GOES HERE
+        <div className={classes.toolbar}>
+          <div className="Sidebar__app-logo">
+            HomePokerClub
+          </div>
+        </div>
         <Divider />
+        
+        <div className="display-flex-jcenter-acenter flex-direction-column">
+        <Placeholder w={220} h={200} />
 
+        <div className="row display-flex-jcenter-acenter text-dark text-bold text-24">
+          CLUB_NAME
+        </div>
+        </div>
+        
         <List>
-          {['Club 1', 'Club 2', 'Club 3'].map((text, index) => (
-            <ListItem button key={text} onClick={() => console.log('Clicked: ', text)}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+            <ListItem className="red" button key={text}>
+              <ListItemIcon>{index % 2 === 0 ? <InboxIcon className={classes.icon} /> : <MailIcon className={classes.icon} />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
@@ -87,7 +105,7 @@ class ResponsiveDrawer extends React.Component {
         <List>
           {['All mail', 'Trash', 'Spam'].map((text, index) => (
             <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemIcon>{index % 2 === 0 ? <InboxIcon className={classes.icon} /> : <MailIcon className={classes.icon} />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
@@ -96,7 +114,7 @@ class ResponsiveDrawer extends React.Component {
     );
 
     return (
-      <Div className={classes.root}>
+      <div className={classes.root}>
         <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
@@ -109,7 +127,7 @@ class ResponsiveDrawer extends React.Component {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" noWrap>
-              HomePokerClub
+              {app.currentPageHeader}
             </Typography>
           </Toolbar>
         </AppBar>
@@ -141,17 +159,25 @@ class ResponsiveDrawer extends React.Component {
             </Drawer>
           </Hidden>
         </nav>
-      </Div>
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          {/* <Home /> */}
+          {children}
+        </main>
+      </div>
     );
   }
 }
 
 ResponsiveDrawer.propTypes = {
   classes: PropTypes.object.isRequired,
-  // Injected by the documentation to work in an iframe.
-  // You won't need it on your project.
-  container: PropTypes.object,
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(ResponsiveDrawer);
+function mapStateToProps({ app }) {
+  return { app };
+}
+
+export default withStyles(styles, { withTheme: true })(connect(mapStateToProps, null)(ResponsiveDrawer));
+
+// export default withNotifications(withRouter(connect(mapStateToProps, { ...userActions, ...appActions })(Account)));
