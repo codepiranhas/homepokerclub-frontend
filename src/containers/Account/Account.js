@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { withNotifications } from "../../hocs/WithNotifications";
 import styled from "styled-components";
-import { colors } from "../../variables/colors";
-import { userActions } from "../../actions";
+// import { colors } from "../../variables/colors";
+import { userActions, appActions } from "../../actions";
 
 import "./Account.css";
 
@@ -19,12 +19,12 @@ const Page = styled.div`
   text-align: center;
 `
 
-const H1 = styled.h1`
-  color: ${colors.text.white}
-`
-const P = styled.p`
-  color: ${colors.text.white}
-`
+// const H1 = styled.h1`
+//   color: ${colors.text.white}
+// `
+// const P = styled.p`
+//   color: ${colors.text.white}
+// `
 
 class Account extends Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class Account extends Component {
   }
 
   componentDidMount() {
-    console.log('this.props: ', this.props);
+    this.props.setPageHeader('Account');
   }
 
   handleSelect = (selection) => {
@@ -67,16 +67,10 @@ class Account extends Component {
 
   render() {
     return (
-      <div>
-       <Page>
-          <H1>Profile Page</H1>
-          <P className="wide-margin-bottom">Lets get you started by creating a club or joining an existing one.</P>
-          <button onClick={this.handleCreateClub}>Create club</button>
-          <button onClick={this.handleJoinClub}>Join existing club</button>
-          <button onClick={this.handleCreateTournament}>Create tournament</button>
-          <button onClick={this.handleLogout}>Logout</button>
-        </Page>
-      </div>
+      <Page>
+        <Link to="/">Go home</Link>
+        <button onClick={this.handleLogout}>Logout</button>
+      </Page>
     );
   }
 }
@@ -87,4 +81,8 @@ function mapStateToProps({ user }) {
 
 // Example using the context API to give access to notifications on this component
 // It can now find the state in its props (this.props.notifications)
-export default withNotifications(withRouter(connect(mapStateToProps, userActions)(Account)));
+export default
+  withNotifications(
+  withRouter(
+  connect(mapStateToProps, { ...userActions, ...appActions })(
+  Account)));

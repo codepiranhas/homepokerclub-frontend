@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import posed from 'react-pose';
 import { userActions } from '../../actions';
 import { withNotifications } from '../../hocs/WithNotifications';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import MyButton from '../../components/Button/Button';
 import './Login.css';
 
 const AnimationContainer = posed.div({
@@ -51,6 +52,7 @@ class Login extends Component {
     event.preventDefault(); // Prevents the native functionality of the form
 
     this.setState({ isLoading: true });
+
 
     this.props
       .login({ email: this.state.email, password: this.state.password })
@@ -116,9 +118,12 @@ class Login extends Component {
                 </p>
               </Div>
               <Div className="login__buttonWrapper">
-                <Button variant="contained" color="primary" type="submit" fullWidth>
+                {/* <Button variant="contained" color="primary" type="submit" fullWidth>
                   Login
-                </Button>
+                </Button> */}
+                <MyButton fullwidth type="submit" isLoading={this.state.isLoading}>
+                  Login here
+                </MyButton>
               </Div>
 
               <Div className="login__registerWrapper">

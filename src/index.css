@@ -348,3 +348,56 @@ template {
   display: none;
 }
 
+.Sidebar__app-logo {
+  height: 65px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  color: #eee;
+  font-size: 24px;
+}
+
+.red {
+
+}
+
+.red::before {
+  content: '';
+  width: 10px;
+  height: 100%;
+  background-color: green !important;
+}
+
+.display-flex {
+  display: flex;
+}
+
+.display-flex-jcenter-acenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-bold {
+  font-weight: 500;
+}
+
+.text-24 {
+  font-size: 24px;
+}
+
+.text-dark {
+  color: #333;
+}
+
+.row {
+  width: 220px;
+  background-color: #eee;
+}
+
+.flex-direction-column {
+  display: flex;
+  flex-direction: column;
+}

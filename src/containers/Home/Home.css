@@ -6,9 +6,18 @@
 }
 
 
+.test-row {
+  display: flex;
+}
 
+.margin-all {
+  margin: 10px;
+}
 
-
+.no-margin-padding {
+  margin: 0;
+  padding: 0;
+}
 
 .home__grid-container {
   overflow: scroll;

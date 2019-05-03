@@ -17,10 +17,10 @@ const Div = styled.div`
   font-size: 18px;
 `
 
-const Placeholder = (props) => {
+const Placeholder = ({w, h}) => {
   return (
-    <Div height={props.h} width={props.w}>
-      {props.w} x {props.h}
+    <Div height={h} width={w}>
+      {w} x {h}
     </Div>
   )
 }

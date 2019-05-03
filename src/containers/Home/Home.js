@@ -1,16 +1,14 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { withNotifications } from "../../hocs/WithNotifications";
 // import styled from "styled-components";
 // import { colors } from "../../variables/colors";
-import { userActions, clubActions } from "../../actions";
+import { userActions, clubActions, appActions } from "../../actions";
 
 // import Placeholder from "../../components/Placeholder/Placeholder";
 
-// import Club from "../Club/Club";
-
-import Button from '@material-ui/core/Button';
+import Button from '../../components/Button/Button';
 
 import "./Home.css";
 
@@ -27,7 +25,9 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    console.log('this.props: ', this.props);
+    console.log('this.props @ Home: ', this.props);
+    this.props.setPageHeader('Home');
+
     if (!this.props.user.isFirstLogin) {
       this.props.history.push('/account')
     }
@@ -61,51 +61,134 @@ class Home extends Component {
     this.props.logout(this.props.user);
   }
 
+  deleteHandler = () => {
+    console.log('Delete was clicked!')
+  }
+
 
 
   render() {
     return (
-      <div className="home__grid-container">
+      <div>
+        <Link to="/account">Go to account</Link>
+        <br /><br /><br />
 
 
-        <div className="grid-item--club card-look">
-          <Button variant="contained" color="primary"onClick={this.handleNewClub}>New Club</Button>
+        <h1 className="no-margin-padding">Small</h1>
+        <div className='display-flex'>
+          <div className='margin-all'>
+            <Button size='small'>OK</Button>
+          </div>
+          <div className='margin-all'>
+            <Button size='small' variant="danger">DELETE</Button>
+          </div>
+          <div className='margin-all'>
+            <Button size='small' variant="plain">CANCEL</Button>
+          </div>
         </div>
 
-        <div className="grid-item--capsule1 card-look">14 members</div>
-        <div className="grid-item--capsule2 card-look">145 games</div>
-        <div className="grid-item--capsule3 card-look">2320 hours</div>
-        <div className="grid-item--capsule4 card-look">2500$</div>
-        <div className="grid-item--capsule5 card-look">Capsule 5</div>
+        <h1 className="no-margin-padding">Default</h1>
+        <div className='display-flex'>
+          <div className='margin-all'>
+            <Button>OK</Button>
+          </div>
+          <div className='margin-all'>
+            <Button variant="danger">DELETE</Button>
+          </div>
+          <div className='margin-all'>
+            <Button variant="plain">CANCEL</Button>
+          </div>
+        </div>
 
-        <div className="grid-item--tournaments card-look">Tournaments</div>
+        <h1 className="no-margin-padding">Large</h1>
+        <div className='display-flex'>
+          <div className='margin-all'>
+            <Button size="large">OK</Button>
+          </div>
+          <div className='margin-all'>
+            <Button size="large" variant="danger">DELETE</Button>
+          </div>
+          <div className='margin-all'>
+            <Button size="large" variant="plain">CANCEL</Button>
+          </div>
+        </div>
 
-        <div className="grid-item--members card-look">Members</div>
+        <h1 className="no-margin-padding">Outline</h1>
+        <div className='display-flex'>
+          <div className='margin-all'>
+            <Button outline size="small">OK</Button>
+          </div>
+          <div className='margin-all'>
+            <Button outline variant="danger">DELETE</Button>
+          </div>
+          <div className='margin-all'>
+            <Button outline size="large" variant="plain">CANCEL</Button>
+          </div>
+        </div>
 
-        <div className="grid-item--statistics1 card-look">Statistics 1</div>
-        <div className="grid-item--statistics2 card-look">Statistics 2</div>
-        <div className="grid-item--statistics3 card-look">Statistics 3</div>
-        <div className="grid-item--statistics4 card-look">Statistics 4</div>
- 
+        <h1 className="no-margin-padding">Disabled</h1>
+        <div className='display-flex'>
+          <div className='margin-all'>
+            <Button isDisabled size="small">OK</Button>
+          </div>
+          <div className='margin-all'>
+            <Button isDisabled variant="danger">DELETE</Button>
+          </div>
+          <div className='margin-all'>
+            <Button isDisabled size="large" variant="plain">CANCEL</Button>
+          </div>
+        </div>
 
+        <h1 className="no-margin-padding">Loading</h1>
+        <div className='display-flex'>
+          <div className='margin-all'>
+            <Button isLoading size="small">OK</Button>
+          </div>
+          <div className='margin-all'>
+            <Button isLoading variant="danger">DELETE</Button>
+          </div>
+          <div className='margin-all'>
+            <Button isLoading size="large" variant="plain">CANCEL</Button>
+          </div>
+        </div>
+
+        <h1 className="no-margin-padding">Loading outline</h1>
+        <div className='display-flex'>
+          <div className='margin-all'>
+            <Button outline isLoading size="small">OK</Button>
+          </div>
+          <div className='margin-all'>
+            <Button outline isLoading variant="danger">DELETE</Button>
+          </div>
+          <div className='margin-all'>
+            <Button outline isLoading size="large" variant="plain">CANCEL</Button>
+          </div>
+        </div>
+        
+
+        <br /><br />
+
+        <h1>Large</h1>
+        <Button isDisabled>SAVE</Button>
+        <br /><br />
+        <Button isDisable variant="danger">CANCEL</Button>
+
+        <h1>With Icons</h1>
+        <Button outline variant="danger" icon='trash-alt'>DELETE</Button>
+        <br /><br />
+        <Button variant="danger" width="220" height="80" fontSize="28">FIXED WIDTH</Button>
+        <br /><br />
+        <Button outline icon='trash-alt'>THIS IS DAMN LONG</Button>
+       
       </div>
-
-      // <Page>
-      //   <H1>Welcome to HomePokerClub!</H1>
-      //   <P className="wide-margin-bottom">Lets get you started by creating a club or joining an existing one.</P>
-      //   <button onClick={this.handleCreateClub}>Create club</button>
-      //   <button onClick={this.handleJoinClub}>Join existing club</button>
-      //   <button onClick={this.handleCreateTournament}>Create tournament</button>
-      //   <button onClick={this.handleLogout}>Logout</button>
-      // </Page>
     );
   }
 }
 
-function mapStateToProps({ user }) {
-  return { user };
+function mapStateToProps({ user, app }) {
+  return { user, app };
 }
 
 // Example using the context API to give access to notifications on this component
 // It can now find the state in its props (this.props.notifications)
-export default withNotifications(withRouter(connect(mapStateToProps, {...userActions, ...clubActions})(Home)));
+export default withNotifications(withRouter(connect(mapStateToProps, {...userActions, ...clubActions, ...appActions})(Home)));

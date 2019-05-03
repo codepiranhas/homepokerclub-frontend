@@ -5,16 +5,19 @@
 
 #root {
   /* width: 100vw; */
-  height: calc(100vh - 60px);
+  height: 100vh;
 
   display: flex;
   justify-content: center;
   /* align-items: center; */
 
-  background: rgb(57,139,28);
-  background: radial-gradient(circle, rgba(57,139,28,1) 0%, rgba(31,85,26,1) 100%);
+  background: #0f0c29;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #24243e, #302b63, #0f0c29);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #24243e, #302b63, #0f0c29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 
   font-family: 'Roboto', sans-serif;
+  font-weight: 400;
 }
 
 /* Margins */
