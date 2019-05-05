@@ -1,0 +1,18 @@
+:root {
+	--c-black: #0B0B0B;
+
+	--c-gray-dark: #222426;
+
+	--c-gray-medium: #363A3D;
+	--c-gray-light: #BFBFBF;
+
+	--c-white: #fafafa;
+
+	--c-accent: #07AC55;
+	--c-danger: red;
+	--c-success: lime;
+
+	--c-gradient-primary: 'linear-gradient(253deg, #A8FF78, #78FFD6)';
+	--c-gradient-danger: 'linear-gradient(253deg, #FF4B2B, #FF416C)';
+	--c-gradient-plain: 'linear-gradient(253deg, #cccccc30, #cccccc10)';
+}

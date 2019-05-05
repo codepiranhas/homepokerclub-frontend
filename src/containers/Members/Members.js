@@ -6,9 +6,9 @@ import { withNotifications } from "../../hocs/WithNotifications";
 // import { colors } from "../../styles/colors";
 import { userActions, clubActions, appActions } from "../../actions";
 
-import "./Home.css";
+import "./Members.css";
 
-class Home extends Component {
+class Members extends Component {
   constructor(props) {
     super(props);
 
@@ -19,15 +19,8 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    console.log('this.props @ Home: ', this.props);
-    this.props.setPageHeader('Home');
-
-    if (!this.props.user.isFirstLogin) {
-      this.props.history.push('/account')
-    }
-    else {
-      console.log('First login!')
-    }
+    console.log('this.props @ Members: ', this.props);
+    this.props.setPageHeader('Members');
   }
 
   handleSelect = (selection) => {
@@ -62,7 +55,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <h1>This is home</h1>
+        <h1>This is members</h1>
       </div>
     );
   }
@@ -74,4 +67,4 @@ function mapStateToProps({ user, app }) {
 
 // Example using the context API to give access to notifications on this component
 // It can now find the state in its props (this.props.notifications)
-export default withNotifications(withRouter(connect(mapStateToProps, {...userActions, ...clubActions, ...appActions})(Home)));
+export default withNotifications(withRouter(connect(mapStateToProps, {...userActions, ...clubActions, ...appActions})(Members)));

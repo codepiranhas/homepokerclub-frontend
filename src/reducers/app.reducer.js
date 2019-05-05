@@ -3,7 +3,7 @@ import {
 } from '../actions/types';
 
 const defaultState = {
-  currentPageHeader: null
+  currentPageHeader: null,
 };
 
 export default function(state = defaultState, action) {

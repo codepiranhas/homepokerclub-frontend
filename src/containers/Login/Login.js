@@ -53,7 +53,6 @@ class Login extends Component {
 
     this.setState({ isLoading: true });
 
-
     this.props
       .login({ email: this.state.email, password: this.state.password })
       .then(user => {

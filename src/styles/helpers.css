@@ -1,0 +1,57 @@
+/****************************************************************
+ *																															*
+ *		 FLEX  -  FLEX  -  FLEX  -  FLEX	 - 	FLEX  -  FLEX       *
+ * 																															*
+ ****************************************************************/
+
+.display-flex { display: flex; }
+
+.flex-center-center {
+	justify-content: center;
+	align-items: center;
+}
+
+.flex-justify-center { justify-content: center; }
+.flex-justify-around { justify-content: space-around; }
+.flex-justify-between { justify-content: space-between; }
+
+.flex-align-center { align-items: center; }
+
+
+
+/****************************************************************
+ *																															*
+ *		MARGINS  -  MARGINS  -  MARGINS  -  MARGINS	 - 	MARGINS		*
+ * 																															*
+ ****************************************************************/
+
+.tight-space-around { margin: 5px; }
+.tight-space-above { margin-top: 5px; }
+.tight-space-right { margin-right: 5px; }
+.tight-space-down { margin-bottom: 5px; }
+.tight-space-left { margin-left: 5px; }
+
+.space-around { margin: 10px; }
+.space-above { margin-top: 10px; }
+.space-right { margin-right: 10px; }
+.space-down { margin-bottom: 10px; }
+.space-left { margin-left: 10px; }
+
+.wide-space-around { margin: 20px; }
+.wide-space-above { margin-top: 20px; }
+.wide-space-right { margin-right: 20px; }
+.wide-space-down { margin-bottom: 20px; }
+.wide-space-left { margin-left: 20px; }
+
+
+
+/****************************************************************
+ *																															*
+ *		MAYBE  -  MAYBE  -  MAYBE  -  MAYBE	 - 	MAYBE  -  MAYBE		*
+ * 																															*
+ ****************************************************************/
+
+.card-look {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+}

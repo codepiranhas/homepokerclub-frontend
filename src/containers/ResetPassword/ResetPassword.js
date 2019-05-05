@@ -43,7 +43,7 @@ class ResetPassword extends Component {
     this.props.validateResetPasswordToken({ resetToken: resetToken })
       .then(res => {
         console.log('res @ componentWillMount @ resetPassword: ', res);
-        if (res === 'token exists') {
+        if (res === 'success') {
           this.setState({token: resetToken, tokenValidated: true, isLoading: false });
         }
         else {

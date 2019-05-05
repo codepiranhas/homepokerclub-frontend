@@ -1,10 +1,10 @@
 //import httpRequest from '../helpers/httpRequest';
 import {
-  APP_SET_PAGE_HEADER
+	APP_SET_PAGE_HEADER,
 } from './types';
 
 export const appActions = {
-  setPageHeader,
+	setPageHeader,
 };
 
 function setPageHeader(header) {
@@ -13,3 +13,4 @@ function setPageHeader(header) {
 		payload: header
 	})
 }
+
