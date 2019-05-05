@@ -1,42 +1,65 @@
-/* Variables */
-:root {
-  --col-main: #eee;
-}
+@import './styles/helpers.css';
+@import './styles//colors.css';
 
 #root {
-  /* width: 100vw; */
+  background: var(--c-black);
   height: 100vh;
+  overflow-y: scroll;
 
-  display: flex;
-  justify-content: center;
-  /* align-items: center; */
-
-  background: white;  /* Chrome 10-25, Safari 5.1-6 */
-
+  color: var(--c-white);
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
 }
 
-/* Margins */
-.tight-margin-top { margin-top: 10px }
-.tight-margin-right { margin-right: 10px }
-.tight-margin-bottom { margin-bottom: 10px }
-.tight-margin-left { margin-left: 10px }
 
-.margin-top { margin-top: 30px }
-.margin-right { margin-right: 30px }
-.margin-bottom { margin-bottom: 30px }
-.margin-left { margin-left: 30px }
-
-.wide-margin-top { margin-top: 50px }
-.wide-margin-right { margin-right: 50px }
-.wide-margin-bottom { margin-bottom: 50px }
-.wide-margin-left { margin-left: 50px }
-
-
-
-/* Misc */
-.card-look {
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
-  border-radius: 5px;
+/* EXAMPLE OF USING GRID - NOT USED ANYWHERE */
+.gridz {
+  display: grid;
+  height: 100vh;
+  grid-template-rows: 70px auto;
+  grid-template-columns: 220px auto;
+  grid-template-areas:  "apptitle topbar"
+                        "sidebar content"
 }
+
+.gridz-apptitle {
+  grid-area: apptitle;
+  background-color: #222426;
+  color: #eee;
+}
+
+.gridz-sidebar {
+  grid-area: sidebar;
+}
+.gridz-topbar {
+  grid-area: topbar;
+}
+.gridz-content {
+  overflow-y: scroll;
+  grid-area: content;
+
+  background-color: #0B0B0B;
+
+  padding: 20px;
+}
+
+
+@media screen and (max-width: 800px) {
+  .gridz {
+    display: grid;
+    height: 100vh;
+    grid-template-rows: 60px, auto;
+    grid-template-columns: auto;
+    grid-template-areas:  "topbar"
+                          "content"
+  }
+
+  .gridz-sidebar {
+    position: absolute;
+    height: 100vh;
+    left: -300px;
+  }
+  .gridz-apptitle { display: none; }
+}
+
+/* END OF EXAMPLE OF USING GRID - NOT USED ANYWHERE */

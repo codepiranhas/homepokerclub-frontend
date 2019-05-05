@@ -1,3 +1,13 @@
+/*************************************************************************
+ *
+ * NORMALIZE CSS - NOT TO BE CHANGED
+ *
+ * FOR SETTING GLOBAL CSS, CHECK APP.CSS
+ *
+ *************************************************************************/
+
+
+
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
 /* Document
@@ -348,56 +358,10 @@ template {
   display: none;
 }
 
-.Sidebar__app-logo {
-  height: 65px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 600;
-  color: #eee;
-  font-size: 24px;
+/* apply a natural box layout model to all elements, but allowing components to change */
+html {
+  box-sizing: border-box;
 }
-
-.red {
-
-}
-
-.red::before {
-  content: '';
-  width: 10px;
-  height: 100%;
-  background-color: green !important;
-}
-
-.display-flex {
-  display: flex;
-}
-
-.display-flex-jcenter-acenter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.text-bold {
-  font-weight: 500;
-}
-
-.text-24 {
-  font-size: 24px;
-}
-
-.text-dark {
-  color: #333;
-}
-
-.row {
-  width: 220px;
-  background-color: #eee;
-}
-
-.flex-direction-column {
-  display: flex;
-  flex-direction: column;
+*, *:before, *:after {
+  box-sizing: inherit;
 }

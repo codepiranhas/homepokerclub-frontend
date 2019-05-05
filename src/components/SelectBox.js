@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { colors } from '../variables/colors';
+import { colors } from '../styles/colors';
 
 // import PlayerImg from '../../assets/images/players.svg';
 // import TournamentsImg from '../../assets/images/futbol.svg';

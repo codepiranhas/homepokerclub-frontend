@@ -76,7 +76,7 @@ function validateResetPasswordToken(data) {
     return httpRequest('GET', `/v1/users/validateResetPasswordToken/${data.resetToken}`)
       .then(data => {
         console.log('response @ validate: ', data);
-        return data.msg;
+        return data.message;
       })
       .catch(err => {
         console.log('err @ validatePasswordToken action: ', err.response);

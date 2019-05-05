@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
 import { withNotifications } from "../../hocs/WithNotifications";
 // import styled from "styled-components";
-// import { colors } from "../../variables/colors";
+// import { colors } from "../../styles/colors";
 // import { userActions } from "../../actions";
 
 

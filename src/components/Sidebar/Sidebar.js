@@ -12,16 +12,26 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import { withRouter } from "react-router-dom";
 
 import Placeholder from '../Placeholder/Placeholder';
 
-
 const drawerWidth = 240;
+
+const links = [
+  { label: 'Home', route: '/' },
+  { label: 'Tournaments', route: 'tournaments' },
+  { label: 'Members', route: 'members' },
+  { label: 'Chat Room', route: 'chatroom' },
+  { label: 'Leaderboards', route: 'leaderboards' },
+  { label: 'Calendar', route: 'calendar' },
+  { label: 'Help Center', route: 'helpcenter' },
+  { label: 'Account', route: 'account' },
+]
 
 const styles = theme => ({
   root: {
@@ -31,11 +41,12 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
       flexShrink: 0,
+      backgroundColor: '#222426'
     },
   },
   appBar: {
     marginLeft: drawerWidth,
-    backgroundColor: '#0f0c29',
+    backgroundColor: '#222426',
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
     },
@@ -50,15 +61,15 @@ const styles = theme => ({
 
   drawerPaper: {
     width: drawerWidth,
-    backgroundColor: '#0f0c2920',
-    color: '#eee'
+    backgroundColor: '#222426',
+    // color: '#BFBFBF'
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
   },
   icon: {
-    color: '#eee'
+    color: '#BFBFBF'
   }
 });
 
@@ -71,45 +82,44 @@ class ResponsiveDrawer extends React.Component {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
 
+  handleNavigation = (route) => {
+    this.props.history.push(route);
+    if (this.state.mobileOpen) {
+      this.handleDrawerToggle();
+    }
+  }
+
   render() {
     const { classes, theme, children, app } = this.props;
-
-    console.log('this.props @ sidebar: ', this.props)
 
     const drawer = (
       <div>
         <div className={classes.toolbar}>
           <div className="Sidebar__app-logo">
-            HomePokerClub
+
+          {/* <MediaQuery query="(min-width: 600px)"> */}
+          <div className="display-flex flex-center-center">
+            <h2>HomePokerClub</h2>
+          </div>
+          {/* </MediaQuery> */}
+
           </div>
         </div>
         <Divider />
         
-        <div className="display-flex-jcenter-acenter flex-direction-column">
-        <Placeholder w={220} h={200} />
-
-        <div className="row display-flex-jcenter-acenter text-dark text-bold text-24">
-          CLUB_NAME
+        <div className="display-flex flex-center-center">
+        <Placeholder w={200} h={200} />
         </div>
-        </div>
-        
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem className="red" button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon className={classes.icon} /> : <MailIcon className={classes.icon} />}</ListItemIcon>
-              <ListItemText primary={text} />
+          {links.map((link, index) => (
+            <ListItem button key={link.label} onClick={() => this.handleNavigation(link.route)}>
+              <ListItemIcon>{<InboxIcon className={classes.icon} />}</ListItemIcon>
+              <ListItemText primary={link.label} />
             </ListItem>
           ))}
         </List>
         <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon className={classes.icon} /> : <MailIcon className={classes.icon} />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
+
       </div>
     );
 
@@ -178,6 +188,6 @@ function mapStateToProps({ app }) {
   return { app };
 }
 
-export default withStyles(styles, { withTheme: true })(connect(mapStateToProps, null)(ResponsiveDrawer));
+export default withStyles(styles, { withTheme: true })(withRouter(connect(mapStateToProps, null)(ResponsiveDrawer)));
 
 // export default withNotifications(withRouter(connect(mapStateToProps, { ...userActions, ...appActions })(Account)));

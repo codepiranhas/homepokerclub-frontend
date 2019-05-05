@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { colors } from '../../variables/colors';
 // import './Button.css';
 
 const colors = {
@@ -14,8 +13,8 @@ const colors = {
     shadowColor: '#78FFD640',
     shadowColorFocused: '#78FFD670',
 
-    fontColor: '#302B63',
-    fontColorDisabled: '#302B6380',
+    fontColor: '#222426',
+    fontColorDisabled: '#22242680',
     fontColorOutline: '#A8FF78',
     fontColorOutlineDisabled: '#A8FF7880',
   },
@@ -40,8 +39,8 @@ const colors = {
     shadowColor: '#CFDEF310',
     shadowColorFocused: '#CFDEF330',
 
-    fontColor: '#302B63',
-    fontColorDisabled: '#302B6380',
+    fontColor: '#222426',
+    fontColorDisabled: '#22242680',
     fontColorOutline: '#cccccc',
     fontColorOutlineDisabled: '#cccccc80',
   },
