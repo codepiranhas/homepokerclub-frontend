@@ -13,7 +13,7 @@
 
 
 /* EXAMPLE OF USING GRID - NOT USED ANYWHERE */
-.gridz {
+/* .gridz {
   display: grid;
   height: 100vh;
   grid-template-rows: 70px auto;
@@ -60,6 +60,6 @@
     left: -300px;
   }
   .gridz-apptitle { display: none; }
-}
+} */
 
 /* END OF EXAMPLE OF USING GRID - NOT USED ANYWHERE */

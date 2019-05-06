@@ -2,11 +2,14 @@
 	--c-black: #0B0B0B;
 
 	--c-gray-dark: #222426;
+	--c-gray-dark80: #22242680;
 
 	--c-gray-medium: #363A3D;
+
 	--c-gray-light: #BFBFBF;
 
 	--c-white: #fafafa;
+	--c-white50: #fafafa50;
 
 	--c-accent: #07AC55;
 	--c-danger: red;

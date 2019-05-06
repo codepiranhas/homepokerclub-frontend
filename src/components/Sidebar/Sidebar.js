@@ -17,8 +17,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from "react-router-dom";
-
 import Placeholder from '../Placeholder/Placeholder';
+import Button from '../Button/Button';
+
+import './Sidebar.css';
 
 const drawerWidth = 240;
 
@@ -29,7 +31,6 @@ const links = [
   { label: 'Chat Room', route: 'chatroom' },
   { label: 'Leaderboards', route: 'leaderboards' },
   { label: 'Calendar', route: 'calendar' },
-  { label: 'Help Center', route: 'helpcenter' },
   { label: 'Account', route: 'account' },
 ]
 
@@ -41,12 +42,12 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
       flexShrink: 0,
-      backgroundColor: '#222426'
+      backgroundColor: 'var(--c-gray-dark)',
     },
   },
   appBar: {
     marginLeft: drawerWidth,
-    backgroundColor: '#222426',
+    backgroundColor: 'var(--c-gray-dark)',
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
     },
@@ -61,16 +62,19 @@ const styles = theme => ({
 
   drawerPaper: {
     width: drawerWidth,
-    backgroundColor: '#222426',
-    // color: '#BFBFBF'
+    backgroundColor: 'var(--c-gray-dark)',
+    color: 'var(--c-white)',
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
   },
   icon: {
-    color: '#BFBFBF'
-  }
+    color: 'var(--c-gray-light)'
+  },
+  iconSelected: {
+    color: 'var(--c-accent)'
+  },
 });
 
 class ResponsiveDrawer extends React.Component {
@@ -93,33 +97,37 @@ class ResponsiveDrawer extends React.Component {
     const { classes, theme, children, app } = this.props;
 
     const drawer = (
-      <div>
+      <div className="display-flex flex-direction-column fullheight">
         <div className={classes.toolbar}>
-          <div className="Sidebar__app-logo">
-
-          {/* <MediaQuery query="(min-width: 600px)"> */}
-          <div className="display-flex flex-center-center">
-            <h2>HomePokerClub</h2>
-          </div>
-          {/* </MediaQuery> */}
-
+          <div className="Sidebar__app-logo sidebar-appname-wrapper">
+            <div className="display-flex flex-center-center fullheight">
+              <h2>HomePokerClub</h2>
+            </div>
           </div>
         </div>
         <Divider />
         
         <div className="display-flex flex-center-center">
-        <Placeholder w={200} h={200} />
+        <Placeholder w={200} h={200} radius={5} />
         </div>
         <List>
           {links.map((link, index) => (
-            <ListItem button key={link.label} onClick={() => this.handleNavigation(link.route)}>
-              <ListItemIcon>{<InboxIcon className={classes.icon} />}</ListItemIcon>
-              <ListItemText primary={link.label} />
+            <ListItem selected={link.label === app.currentPageHeader} className='link-row' button key={link.label} onClick={() => this.handleNavigation(link.route)}>
+              
+              {link.label === app.currentPageHeader 
+                ? <ListItemIcon>{<InboxIcon className={classes.iconSelected} />}</ListItemIcon>
+                : <ListItemIcon>{<InboxIcon className={classes.icon} />}</ListItemIcon>
+              }
+              <ListItemText className="sidebar-link-text" primary={link.label} />
             </ListItem>
           ))}
         </List>
         <Divider />
 
+        <div className="space-left space-right wide-space-below flex-1 display-flex flex-align-end">
+          <Button fullwidth>Change club</Button>
+        </div>
+        
       </div>
     );
 

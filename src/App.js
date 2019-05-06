@@ -4,10 +4,6 @@ import { connect } from 'react-redux';
 import { userActions } from './actions';
 import Routes from './routes/Routes';
 import ErrorBoundary from './helpers/ErrorBoundary';
-
-/**
- * Global CSS configuration
- */
 import './App.css';
 
 /**
@@ -15,8 +11,38 @@ import './App.css';
  * Import any icons here so they are usable across all components
  */
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faTrashAlt, faPencilAlt, faSyncAlt, faFutbol, faTrophy, faCoins } from '@fortawesome/free-solid-svg-icons';
-library.add(faTrashAlt, faPencilAlt, faSyncAlt, faFutbol, faTrophy, faCoins);
+import {
+  faTrashAlt,
+  faPencilAlt,
+  faEdit,
+  faSyncAlt,
+  faTrophy,
+  faTimes,
+  faEnvelope
+} from '@fortawesome/free-solid-svg-icons';
+
+import {
+  faInstagram,
+  faTwitter,
+  faFacebook,
+  faFacebookF,
+  faFacebookSquare
+} from '@fortawesome/free-brands-svg-icons';
+
+library.add(
+  faTrashAlt,
+  faPencilAlt,
+  faEdit,
+  faSyncAlt,
+  faTrophy,
+  faTimes,
+  faInstagram,
+  faTwitter, 
+  faFacebook,
+  faFacebookF,
+  faFacebookSquare,
+  faEnvelope
+);
 
 class App extends Component {
   constructor(props) {
