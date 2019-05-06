@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 // import { MemoryRouter } from 'react-router-dom';
-import { Button } from './Button';
+import { MemberCard } from './MemberCard';
 
 // import { library } from '@fortawesome/fontawesome-svg-core';
 // import { faTrashAlt, faPencilAlt, faSyncAlt, faFutbol, faTrophy, faCoins } from '@fortawesome/free-solid-svg-icons';
