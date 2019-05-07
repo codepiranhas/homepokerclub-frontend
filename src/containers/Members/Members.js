@@ -7,8 +7,7 @@ import { userActions, clubActions, appActions } from "../../actions";
 import MemberCard from "../../components/MemberCard/MemberCard";
 import styled from 'styled-components';
 import Button from "../../components/Button/Button";
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
+import Modal from "../../components/Modal/Modal";
 import "./Members.css";
 
 const Input = styled.input`
@@ -28,7 +27,8 @@ class Members extends Component {
     this.state = {
       allMembers: [],
       membersInView: [],
-      stuff: 1
+      stuff: 1,
+      isModalOpen: false
     };
   }
 
@@ -58,52 +58,66 @@ class Members extends Component {
     }, 1000);
   }
 
-  handleFilter = (event) => {
-    if (event.target.value.length < 2) {
-      return this.setState({ membersInView: this.state.allMembers });
-    }
+  handleInput = event => {
+    console.log('event: ', event);
+    this.setState({ [event.target.name]: event.target.value });
+  };
 
-    const { allMembers } = this.state;
-    const text = event.target.value.toLowerCase();
+  handleOpenDialog = () => {
+    console.log('Opening the modal')
+    this.setState({ isModalOpen: true })
+  }
 
-    const filteredMembers = allMembers.filter(member => {
-      const name = member.name.toLowerCase();
-      const email = member.email.toLowerCase();
+  handleCreateUser = (e) => {
+    console.log('handleCreateUser: ', e);
+    this.setState({ isModalOpen: false });
+  }
 
-      return name.includes(text) || email.includes(text);
-    });
-
-    this.setState({ membersInView: filteredMembers })
+  handleCancel = (e) => {
+    console.log('handleCancel: ', e);
+    this.setState({ isModalOpen: false });
   }
 
   render() {
-    const { membersInView } = this.state;
+    const { membersInView, isModalOpen } = this.state;
 
     return (
       <div className="fullwidth wide-space-above">
 
-        <MediaQuery query="(min-width: 700px)">
-          <div className="xx display-flex flex-justify-end wide-space-below">
-            
-              <div className="members-filterbar flex-auto space-right">
-                <Input type={'text'} onChange={this.handleFilter} placeholder="Type to filter members" />
-              </div>
+      {isModalOpen &&
+        <Modal
+          isOpen={isModalOpen}
+          didClickOk={this.handleCreateUser}
+          didClickCancel={this.handleCancel}
+          withInput={true}
+          titleText='Add new member'
+          okText='lets do it'
+          cancelText='cancel'
+        />
+      }
+
+      <MediaQuery query="(min-width: 700px)">
+        <div className="xx display-flex flex-justify-end wide-space-below">
           
-            <div className="members-add-new">
-              <Button size="large" width="180" height="60">Add New</Button>
+            <div className="members-filterbar flex-auto space-right">
+              <Input type={'text'} name={'name'} onChange={this.handleInput} placeholder="Type to filter members" />
             </div>
+        
+          <div className="members-add-new">
+            <Button onClick={this.handleOpenDialog} size="large" width="180" height="60">Add New</Button>
           </div>
+        </div>
+      </MediaQuery>
+
+
+        <MediaQuery query="(max-width: 699px)">
+        <div className="wide-space-below">
+          <Button onClick={this.handleOpenDialog} size="large" fullwidth>Add New</Button>
+        </div>
+        <div className="space-below">
+          <Input type={'text'} onChange={this.handleFilter} placeholder="Type to filter members" />
+        </div>
         </MediaQuery>
-
-
-          <MediaQuery query="(max-width: 699px)">
-          <div className="wide-space-below">
-            <Button size="large" fullwidth>Add New</Button>
-          </div>
-          <div className="space-below">
-            <Input type={'text'} onChange={this.handleFilter} placeholder="Type to filter members" />
-          </div>
-          </MediaQuery>
 
 
         <div className="members-grid">

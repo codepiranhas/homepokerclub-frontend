@@ -160,7 +160,8 @@ margin: 0;
 
 
 const Button = ({ children, type,size, variant, outline, icon, width, height, fontSize, onClick, isLoading, isDisabled, fullwidth }) => {
-  
+  const buttonText = children.toUpperCase();
+
   if (isLoading) {
     return (
       <DisabledButton
@@ -179,7 +180,7 @@ const Button = ({ children, type,size, variant, outline, icon, width, height, fo
         }
       
         <TextWrapperHidden>
-          <P>{children}</P>
+          <P>{buttonText}</P>
         </TextWrapperHidden>
 
         {outline
@@ -210,7 +211,7 @@ const Button = ({ children, type,size, variant, outline, icon, width, height, fo
         }
       
         <div>
-          <P>{children}</P>
+          <P>{buttonText}</P>
         </div>
       </DisabledButton>
     )
@@ -236,7 +237,7 @@ const Button = ({ children, type,size, variant, outline, icon, width, height, fo
       }
       
       <div>
-        <P>{children}</P>
+        <P>{buttonText}</P>
       </div>
   </BaseButton>
   )
