@@ -94,7 +94,7 @@ class ResetPassword extends Component {
 
             <Div className="login__logoWrapper">
               <FontAwesomeIcon
-                icon={'coins'}
+                icon={'trophy'}
                 size={'6x'}
               />
             </Div>

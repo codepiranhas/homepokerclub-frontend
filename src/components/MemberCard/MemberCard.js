@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Placeholder from '../Placeholder/Placeholder';
+import Avatar from '../Avatar/Avatar';
 // import './MemberCard.css';
-
 
 const BaseCard = styled.div`
   position: relative;
@@ -14,18 +13,22 @@ const BaseCard = styled.div`
   border-radius: 10px;
 
   width: 100%;
-  height: 160px;
+  height: 120px;
   background-color: var(--c-gray-dark80);
 
   display: inline-flex;
 
   @media (max-width: 1024px) {
     width: 100%;
-    height: 140px;
+    height: 120px;
   }
 `;
 
 const AvatarWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
 `;
 
 const DetailsWraper = styled.div`
@@ -35,7 +38,6 @@ const DetailsWraper = styled.div`
 `;
 
 const Row1 = styled.div`
-  height: 40px;
   display: flex;
 `;
 
@@ -49,14 +51,12 @@ const Row3 = styled.div`
 `;
 
 const NameWrapper = styled.div`
-  flex: auto;
-  overflow: scroll;
+  max-width: 95%;
 `;
 
 const ButtonsWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  width: 80px;
+  position: absolute;
+  right: 10px;
 `;
 
 const MemberName = styled.h2`
@@ -69,29 +69,28 @@ const MemberName = styled.h2`
   }
 `;
 
-
-const MemberCard = ({ member }) => {
-  const { name, email, type, social } = member;
+const MemberCard = ({ member, classes, handleEditMember, handleRemoveMember }) => {
+  const { name, email, social } = member;
 
   return (
     <BaseCard>
       <AvatarWrapper className="flex-1">
-        <Placeholder w={70} h={70} radius={35} />
+        <Avatar size="normal" color="green">{member.name[0].toUpperCase()}</Avatar>
       </AvatarWrapper>
       <DetailsWraper className="flex-4">
         <Row1 name={name}>
-          <NameWrapper className="space-above">
+          <NameWrapper className="wide-space-above">
             <MemberName>{name}</MemberName>
           </NameWrapper>
           <ButtonsWrapper>
-            <FontAwesomeIcon className="space-right" icon={'pencil-alt'} size={'lg'} />
-            <FontAwesomeIcon className="tight-space-right" icon={'times'} size={'lg'} />
+            <FontAwesomeIcon onClick={() => handleEditMember(member)} className="space-right" icon={'pencil-alt'} size={'lg'} />
+            <FontAwesomeIcon onClick={() => handleRemoveMember(member)} className="tight-space-right cursor-pointer" icon={'times'} size={'lg'} />
           </ButtonsWrapper>
         </Row1>
-        <Row2 className="tight-space-above">
+        <Row2 className="">
           <p>{email}</p>
         </Row2>
-        {!social &&
+        {social &&
           <Row3>
             <FontAwesomeIcon className="wide-space-right" icon={['fab', 'instagram']} size={'2x'} />
             <FontAwesomeIcon className="wide-space-right" icon={['fab', 'twitter']} size={'2x'} />
@@ -106,18 +105,11 @@ const MemberCard = ({ member }) => {
 
 MemberCard.propTypes = {
    member: PropTypes.object.isRequired,
-  // variant: PropTypes.string,
-  // size: PropTypes.string,
-  // fixedWidth: PropTypes.string,
-  // onClick: PropTypes.func,
-  // isDisabled: PropTypes.bool
+   handleEditMember: PropTypes.func,
+   handleRemoveMember: PropTypes.func,
 };
 
 MemberCard.defaultProps = {
-  // type: 'button',
-  // variant: 'primary',
-  // size: 'normal',
-  // isDisabled: false,
 }
 
 export { MemberCard };

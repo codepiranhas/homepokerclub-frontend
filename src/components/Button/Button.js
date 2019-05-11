@@ -245,8 +245,8 @@ const Button = ({ children, type,size, variant, outline, icon, width, height, fo
 
 Button.propTypes = {
   type: PropTypes.string,
-  variant: PropTypes.string,
-  size: PropTypes.string,
+  variant: PropTypes.oneOf(['primary', 'plain', 'danger']),
+  size: PropTypes.oneOf(['small', 'normal', 'large']),
   fixedWidth: PropTypes.string,
   onClick: PropTypes.func,
   isDisabled: PropTypes.bool

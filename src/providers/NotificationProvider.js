@@ -16,6 +16,7 @@ class NotificationProvider extends React.Component {
   }
 
   showNotification = (type, text) => {
+    if (!text) { return; }
     this.props.enqueueSnackbar(text, { 
       variant: type, 
       anchorOrigin: { vertical: 'top', horizontal: 'center'} 

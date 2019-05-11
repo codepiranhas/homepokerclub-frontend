@@ -3,9 +3,9 @@ import config from '../config';
 
 const baseUrl = config.backendUrl;
 
-let user = JSON.parse(localStorage.getItem('user'));
-
 let request = async (method, url, body) => {
+  const user = JSON.parse(localStorage.getItem('user'));
+
   try {
       const res = await axios({
           baseURL: baseUrl,

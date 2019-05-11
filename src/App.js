@@ -18,7 +18,10 @@ import {
   faSyncAlt,
   faTrophy,
   faTimes,
-  faEnvelope
+  faEnvelope,
+  faUserPlus,
+  faSearch,
+  faUserTie,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -41,7 +44,10 @@ library.add(
   faFacebook,
   faFacebookF,
   faFacebookSquare,
-  faEnvelope
+  faEnvelope,
+  faUserPlus,
+  faSearch,
+  faUserTie,
 );
 
 class App extends Component {
@@ -53,15 +59,9 @@ class App extends Component {
     };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.setState({ isAuthenticating: false });
   }
-
-  handleLogout = async () => {
-    console.log('this.props.dispatch: ', this.props.dispatch);
-    console.log('userActions: ', userActions);
-    this.props.logout(this.props.user);
-  };
 
   render() {
     return (

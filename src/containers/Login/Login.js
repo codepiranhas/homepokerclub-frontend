@@ -78,7 +78,7 @@ class Login extends Component {
           <div className="login__left">
             <div className="login__inputWrapper">
               <Div className="login__logoWrapper">
-                <FontAwesomeIcon icon={'coins'} size={'6x'} />
+                <FontAwesomeIcon icon={'trophy'} size={'5x'} />
               </Div>
               <Div>
                 <h1 className="login__title">Login to your account.</h1>
