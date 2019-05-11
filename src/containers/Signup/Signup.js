@@ -104,8 +104,8 @@ class Signup extends Component {
 
               <Div className="login__logoWrapper">
                 <FontAwesomeIcon
-                  icon={'coins'}
-                  size={'6x'}
+                  icon={'trophy'}
+                  size={'5x'}
                 />
               </Div>
               <Div>

@@ -12,16 +12,16 @@ const Div = styled.div`
   width: ${props => props.width}px;
   height: ${props => props.height}px;
 
-  border-radius: 5px;
+  border-radius: ${props => props.radius}px;
 
   background-color: #ddd;
   color: #444;
   font-size: 18px;
 `
 
-const Placeholder = ({w, h}) => {
+const Placeholder = ({ w, h, radius }) => {
   return (
-    <Div height={h} width={w}>
+    <Div height={h} width={w} radius={radius}>
       {w} x {h}
     </Div>
   )

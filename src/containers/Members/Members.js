@@ -1,70 +1,103 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import MediaQuery from 'react-responsive';
 import { withNotifications } from "../../hocs/WithNotifications";
-// import styled from "styled-components";
-// import { colors } from "../../styles/colors";
-import { userActions, clubActions, appActions } from "../../actions";
-
+import { clubActions, appActions } from "../../actions";
+import MemberCard from "../../components/MemberCard/MemberCard";
+import Button from "../../components/Button/Button";
+import Input from "../../components/Input/Input";
+import { makeGetFilteredMembers } from '../../selectors';
 import "./Members.css";
 
 class Members extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      shouldCreateNew: false,
-      shouldJoinExisting: false
-    };
+    this.state = {};
   }
 
   componentDidMount() {
-    console.log('this.props @ Members: ', this.props);
     this.props.setPageHeader('Members');
   }
 
-  handleSelect = (selection) => {
-    if (selection === 'shouldCreateNew') {
-      this.setState({ shouldCreateNew: true, shouldJoinExisting: false });
-    }
-    else {
-      this.setState({ shouldCreateNew: false, shouldJoinExisting: true });
-    }
+  componentWillUnmount() {
+    this.props.setMembersFilter(null);
   }
 
-  handleNewClub = () => {
-    this.props.createClub({ name: 'Club Coolio' });
+  handleFilter = event => {
+    this.props.setMembersFilter(event.target.value);
+  };
+
+
+  handleCreateMember = () => {
+    this.props.history.push(`members/create`);
   }
 
-  handleJoinClub = () => {
-    console.log('joining existing club');
+  handleEditMember = (member) => {
+    this.props.history.push(`members/${member._id}/edit`);
   }
 
-  handleCreateTournament = () => {
-    console.log('creating new tournament');
-  }
-
-  handleLogout = () => {
-    this.props.logout(this.props.user);
-  }
-
-  deleteHandler = () => {
-    console.log('Delete was clicked!')
+  handleRemoveMember = (member) => {
+    this.props.history.push(`members/${member._id}/delete`);
   }
 
   render() {
     return (
-      <div>
-        <h1>This is members</h1>
+      <div className="fullwidth wide-space-above">
+        
+        <MediaQuery query="(min-width: 700px)">
+          <div className="xx display-flex flex-justify-end wide-space-below">
+            <div className="members-filterbar flex-auto space-right">
+              <Input onChange={this.handleFilter} icon={'search'} fullwidth placeholder="Type to filter members" />
+            </div>
+            <div className="members-add-new">
+              <Button onClick={this.handleCreateMember} size="large" width="180" height="60">Add New</Button>
+            </div>
+          </div>
+        </MediaQuery>
+
+        <MediaQuery query="(max-width: 699px)">
+          <div className="wide-space-below">
+            <Button onClick={this.handleToggleAddMemberModal} size="large" fullwidth>Add New</Button>
+          </div>
+          <div className="space-below">
+            <Input onChange={this.handleFilter} size='small' icon={'search'} fullwidth placeholder="Type to filter members" />
+          </div>
+        </MediaQuery>
+
+        <div className="members-grid">
+          {this.props.members.map(member => {
+            return (
+              <MemberCard
+                key={member._id}
+                member={member}
+                handleRemoveMember={() => this.handleRemoveMember(member)}
+                handleEditMember={() => this.handleEditMember(member)}
+              />
+            )
+          })}
+        </div>
       </div>
     );
   }
 }
 
-function mapStateToProps({ user, app }) {
-  return { user, app };
+/**
+ * Slightly different way to create the mapStateToProps objects.
+ * Used for creating memoized selectors with reselect.
+ */
+function makeMapStateToProps() {
+  const getFilteredMembers = makeGetFilteredMembers()
+  const mapStateToProps = (state, props) => {
+    return {
+      user: state.user,
+      app: state.app,
+      club: state.club,
+      members: getFilteredMembers(state)
+    }
+  }
+  return mapStateToProps
 }
 
-// Example using the context API to give access to notifications on this component
-// It can now find the state in its props (this.props.notifications)
-export default withNotifications(withRouter(connect(mapStateToProps, {...userActions, ...clubActions, ...appActions})(Members)));
+export default withNotifications(withRouter(connect(makeMapStateToProps, { ...clubActions, ...appActions})(Members)));
