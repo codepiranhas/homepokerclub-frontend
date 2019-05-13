@@ -2,7 +2,14 @@ import { createSelector } from 'reselect'
 
 const getMembersFilter = state => state.app.membersFilter;
 
-const getMembers = state => state.club.current.members;
+/**
+ * We filter out the members that have been deleted by the user.
+ * 
+ * This is needed as we don't really delete members from the database,
+ * but only mark them as removed. In this way, if a user accidentally
+ * delets a member and then asks for help, we can easier restore it.
+ */
+const getMembers = state => state.club.current.members.filter(member => !member.isRemoved);
 
 export const makeGetFilteredMembers = () => {
 	return createSelector(

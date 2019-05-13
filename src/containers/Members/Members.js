@@ -44,8 +44,7 @@ class Members extends Component {
 
   render() {
     return (
-      <div className="fullwidth wide-space-above">
-        
+      <div className="fullwidth wide-space-above">        
         <MediaQuery query="(min-width: 700px)">
           <div className="xx display-flex flex-justify-end wide-space-below">
             <div className="members-filterbar flex-auto space-right">
@@ -59,7 +58,7 @@ class Members extends Component {
 
         <MediaQuery query="(max-width: 699px)">
           <div className="wide-space-below">
-            <Button onClick={this.handleToggleAddMemberModal} size="large" fullwidth>Add New</Button>
+            <Button onClick={this.handleCreateMember} size="large" fullwidth>Add New</Button>
           </div>
           <div className="space-below">
             <Input onChange={this.handleFilter} size='small' icon={'search'} fullwidth placeholder="Type to filter members" />
