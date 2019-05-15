@@ -73,6 +73,8 @@ class ResponsiveDrawer extends React.Component {
   };
 
   buildLinks = () => {
+    if (!this.props.club.current) { return []; }
+    
     return [
       { label: 'Home', route: `/clubs/${this.props.club.current._id}` },
       { label: 'Tournaments', route: `/clubs/${this.props.club.current._id}/tournaments` },

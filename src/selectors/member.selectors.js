@@ -9,7 +9,11 @@ const getMembersFilter = state => state.app.membersFilter;
  * but only mark them as removed. In this way, if a user accidentally
  * delets a member and then asks for help, we can easier restore it.
  */
-const getMembers = state => state.club.current.members.filter(member => !member.isRemoved);
+const getMembers = state => {
+	if (!state.club.current) { return []; }
+
+	return state.club.current.members.filter(member => !member.isRemoved)
+};
 
 export const makeGetFilteredMembers = () => {
 	return createSelector(

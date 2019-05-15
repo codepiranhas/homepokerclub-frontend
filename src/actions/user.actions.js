@@ -26,10 +26,13 @@ function login(user) {
     return httpRequest('POST', '/v1/users/authenticate', user).then(user => {
       console.log('user: ', user);
       if (user.isVerified) {
-        localStorage.setItem('user', JSON.stringify(user));
-        dispatch({ type: USER_LOGIN, payload: user });
+        // Any initialization of the redux store should happen here
         dispatch({ type: CLUB_SET_ALL, payload: user.clubs });
         dispatch({ type: CLUB_SET_CURRENT, payload: user.clubs[0] });
+
+        // Must be dispatched last as this changes the state of authentication
+        localStorage.setItem('user', JSON.stringify(user));
+        dispatch({ type: USER_LOGIN, payload: user });
         return user;
       }
     });
