@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import { Route, Switch, withRouter } from "react-router-dom";
 import Home from "../containers/Home/Home";
 import Main from "../containers/Main/Main";
@@ -8,6 +9,8 @@ import Members from "../containers/Members/Members";
 import MembersCreate from "../containers/Members/MembersCreate";
 import MembersEdit from "../containers/Members/MembersEdit";
 import MembersDelete from "../containers/Members/MembersDelete";
+
+import Tournaments from "../containers/Tournaments/Tournaments";
 
 import NotFound from "../containers/NotFound/NotFound";
 import Login from "../containers/Login/Login";
@@ -21,6 +24,12 @@ import Buttons from "../components/Showcase/Buttons";
 import AuthenticatedRoute from "../hocs/AuthenticatedRoute";
 import UnauthenticatedRoute from "../hocs/UnauthenticatedRoute";
 
+import { appActions } from "../actions";
+
+/**
+ * Here we set all the routes that we do not want to render a sidebar
+ * Currently used for signup/signin routes, but might be used elsewhere in the future.
+ */
 const routesWithoutSidebar = [
   'login',
   'signup',
@@ -31,9 +40,21 @@ const routesWithoutSidebar = [
 
 const Router = ({ childProps, location }) => {
   const hideSidebar = routesWithoutSidebar.some(route => {
-    return location.pathname.includes(route);
+    return location.pathname.includes(route) || location.pathname === '/';
   });
 
+  // Using React Hooks to access the redux store and its actions
+  const app = useSelector(state => state.app);
+  const dispatch = useDispatch();
+
+  if (!app.isStateInitialized) {
+    // If the app is not initialized,
+    // (when user doesn't come from login, but from a bookmark / refresh)
+    // then we call an action that initializes the must-have content.
+    dispatch(appActions.initializeState());
+  }
+
+  // childProps aren't passed anymore, but keeping it for demonstration reasons.
   const allRoutes = 
     <Switch>
       <AuthenticatedRoute path="/" exact component={Main} props={childProps} />
@@ -46,11 +67,12 @@ const Router = ({ childProps, location }) => {
 
       <AuthenticatedRoute path="/clubs/:clubId" exact component={Home} props={childProps} />
       <AuthenticatedRoute path="/clubs/:clubId/account" exact component={Account} props={childProps} />
-
       <AuthenticatedRoute path="/clubs/:clubId/members" exact component={Members} props={childProps} />
       <AuthenticatedRoute path="/clubs/:clubId/members/create" exact component={MembersCreate} props={childProps} />
       <AuthenticatedRoute path="/clubs/:clubId/members/:memberId/edit" exact component={MembersEdit} props={childProps} />
       <AuthenticatedRoute path="/clubs/:clubId/members/:memberId/delete" exact component={MembersDelete} props={childProps} />
+
+      <AuthenticatedRoute path="/clubs/:clubId/tournaments" exact component={Tournaments} props={childProps} />
 
       {/* SHOWCASE */}
       <AuthenticatedRoute path="/buttons" exact component={Buttons} props={childProps} />

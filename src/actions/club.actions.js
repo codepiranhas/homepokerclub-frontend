@@ -1,10 +1,9 @@
 import httpRequest, { axios } from '../helpers/httpRequest';
 import {
   // CLUB_CREATE,
-  CLUB_ADD_MEMBER,
-  CLUB_UPDATE_MEMBER,
-  // CLUB_REMOVE_MEMBER,
-  // CLUB_SET_ALL
+  MEMBER_ADD,
+  MEMBER_UPDATE,
+  MEMBER_REMOVE,
 } from './types';
 
 export const clubActions = {
@@ -46,8 +45,7 @@ function addToClub(name, email, file) {
       imageUrl: uploadConfig ? uploadConfig.key : undefined
     })
 
-    console.log('res @ addToClub @ club.actions: ', res);
-    dispatch({ type: CLUB_ADD_MEMBER, payload: res.club.members });
+    dispatch({ type: MEMBER_ADD, payload: res.club.members });
   };
 }
 
@@ -84,11 +82,11 @@ function updateMember(name, email, memberId, file, previousImageUrl) {
     const res = await httpRequest('PATCH', `/v1/clubs/${club.current._id}/updateMember/${memberId}`, {
       name,
       email,
-      imageUrl: uploadConfig ? uploadConfig.key : undefined
+      imageUrl: uploadConfig ? uploadConfig.key : previousImageUrl ? previousImageUrl : undefined
     });
 
     console.log('res @ updateMember @ club.actions: ', res);
-    dispatch({ type: CLUB_UPDATE_MEMBER, payload: res.club.members });
+    dispatch({ type: MEMBER_UPDATE, payload: res.club.members });
   };
 }
 
@@ -104,7 +102,7 @@ function removeFromClub(memberId) {
     return httpRequest('DELETE', `/v1/clubs/${club.current._id}/removeMember/${memberId}`)
       .then(res => {
         console.log('res @ addToClub @ club.actions: ', res);
-        dispatch({ type: CLUB_ADD_MEMBER, payload: res.club.members });
+        dispatch({ type: MEMBER_REMOVE, payload: res.club.members });
       })
   };
 }

@@ -1,5 +1,12 @@
 import httpRequest from '../helpers/httpRequest';
-import { USER_LOGIN, USER_LOGOUT, CLUB_SET_ALL, CLUB_SET_CURRENT } from './types';
+import {
+  USER_LOGIN,
+  USER_LOGOUT,
+  CLUB_SET_ALL,
+  CLUB_SET_CURRENT,
+  APP_SET_STATE_INITIALIZED,
+  MEMBER_SET_ALL,
+} from './types';
 
 export const userActions = {
   signup,
@@ -29,10 +36,13 @@ function login(user) {
         // Any initialization of the redux store should happen here
         dispatch({ type: CLUB_SET_ALL, payload: user.clubs });
         dispatch({ type: CLUB_SET_CURRENT, payload: user.clubs[0] });
+        dispatch({ type: APP_SET_STATE_INITIALIZED, payload: true });
+        dispatch({ type: MEMBER_SET_ALL, payload: user.clubs[0].members });
 
         // Must be dispatched last as this changes the state of authentication
-        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('user', JSON.stringify(user))
         dispatch({ type: USER_LOGIN, payload: user });
+
         return user;
       }
     });

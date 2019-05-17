@@ -24,11 +24,12 @@ export default ({ component: C, props: cProps, ...rest }) => {
     <Route
       {...rest}
       render={props =>
-        !localStorage.getItem('user')
-          ? <C {...props} {...cProps} />
-          : <Redirect
+        localStorage.getItem('user')       
+          ? <Redirect
               to={redirect === "" || redirect === null ? "/" : redirect}
-            />}
+            />
+          : <C {...props} {...cProps} />
+      }
     />
   );
 };

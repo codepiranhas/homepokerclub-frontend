@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { userActions } from './actions';
 import Routes from './routes/Routes';
-import ErrorBoundary from './helpers/ErrorBoundary';
+// import ErrorBoundary from './helpers/ErrorBoundary';
 import './App.css';
 
 /**
@@ -65,9 +65,9 @@ class App extends Component {
 
   render() {
     return (
-      <ErrorBoundary>
+      // <ErrorBoundary>
         <Routes />
-      </ErrorBoundary>
+      // </ErrorBoundary>
     );
   }
 }

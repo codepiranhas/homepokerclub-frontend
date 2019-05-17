@@ -88,8 +88,6 @@ class ResponsiveDrawer extends React.Component {
   };
 
   handleNavigation = (route) => {
-    console.log('this.props.history', this.props.history);
-    // return this.props.history.push(`members/delete`);
     this.props.history.push(route);
     if (this.state.mobileOpen) {
       this.handleDrawerToggle();

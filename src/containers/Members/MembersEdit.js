@@ -17,11 +17,20 @@ class MembersEdit extends Component {
   }
 
   componentDidMount() {
-    const memberId = this.props.match.params.memberId;
-    const member = this.props.members.find(member => member._id === memberId)
+    // Get the member from the react-router-location, which is passed under normal circumstances
+    const member = this.props.location.state ? this.props.location.state.member : null;
 
-    this.setState({ member })
+    this.setState({ member });
   }
+
+  findMember(members) {
+    console.log('member finding,,');
+    const memberId = this.props.match.params.memberId;
+    const member = members.find(member => member._id === memberId);
+
+    return member;
+  }
+  
 
   onDismiss = (result) => {
     if (result.action === 'updated') {
@@ -37,10 +46,10 @@ class MembersEdit extends Component {
     )
   }
 
-  renderModal() {
+  renderModal(member) {
     return (
       <MemberDetailsModal
-        member={this.state.member}
+        member={member}
         mode='edit'
         onDismiss={this.onDismiss}
       />
@@ -49,8 +58,12 @@ class MembersEdit extends Component {
   }
 
   render() {
-    return this.state.member
-      ? this.renderModal(this.state.member)
+    // Get the member from the state if it was passed by react-router transition
+    // or find it from redux store if the user refreshed the page or used a bookmark.
+    const member = this.state.member || this.findMember(this.props.members);
+
+    return member
+      ? this.renderModal(member)
       : this.renderLoading()
   }
 }
@@ -63,8 +76,6 @@ function makeMapStateToProps() {
   const getFilteredMembers = makeGetFilteredMembers()
   const mapStateToProps = (state) => {
     return {
-      user: state.user,
-      app: state.app,
       club: state.club,
       members: getFilteredMembers(state)
     }

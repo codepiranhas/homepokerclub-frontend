@@ -10,9 +10,9 @@ const getMembersFilter = state => state.app.membersFilter;
  * delets a member and then asks for help, we can easier restore it.
  */
 const getMembers = state => {
-	if (!state.club.current) { return []; }
+	// if (!state.club.current) { return []; }
 
-	return state.club.current.members.filter(member => !member.isRemoved)
+	return state.member.all.filter(member => !member.isRemoved)
 };
 
 export const makeGetFilteredMembers = () => {

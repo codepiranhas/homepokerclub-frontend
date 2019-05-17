@@ -91,6 +91,8 @@ class MemberDetailsModal extends React.Component {
     if (this.props.mode === 'edit') {
       const { name, email, _id, imageUrl } = this.props.member;
 
+      console.log('member @ ModalStyle: ', this.props.member);
+
       this.setState({
         name: name || '',
         email: email || '',
