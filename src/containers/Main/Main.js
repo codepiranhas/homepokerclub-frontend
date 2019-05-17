@@ -11,7 +11,15 @@ const Div = styled.div`
   font-size: 72px;
 `
 class Main extends Component {
+  componentDidMount() {
+    this.redirectToClubView();
+  }
+
   componentDidUpdate() {
+    this.redirectToClubView();
+  }
+
+  redirectToClubView() {
     const { app, club } = this.props;
 
     if (app.isStateInitialized) {

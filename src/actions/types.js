@@ -9,8 +9,6 @@ export const APP_SET_PAGE_HEADER = 'app_set_page_header';
 export const APP_SET_MEMBERS_FILTER = 'app_set_members_filter';
 export const APP_SET_STATE_INITIALIZED = 'app_set_state_initialized';
 export const APP_SET_STATE_INITIALIZING = 'app_set_state_initializing';
-export const APP_UNSET_STATE_INITIALIZING = 'app_unset_state_initializing';
-export const APP_SET_INITIALIZING_STATUS = 'app_set_initializing_status';
 
 export const TOURNAMENT_GET_ALL = 'tournament_get_all';
 export const TOURNAMENT_CREATE = 'tournament_create';
