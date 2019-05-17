@@ -42,7 +42,10 @@ class Main extends Component {
   componentDidUpdate() {
     const { app, club } = this.props;
 
+    console.log('=== componentDidUpdate ===');
+
     if (app.isStateInitialized) {
+      console.log('=== App initialized - push to club ===');
       this.props.history.push(`/clubs/${club.current._id}`);
     }
   }
