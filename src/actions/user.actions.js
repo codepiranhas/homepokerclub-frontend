@@ -36,12 +36,13 @@ function login(user) {
         // Any initialization of the redux store should happen here
         dispatch({ type: CLUB_SET_ALL, payload: user.clubs });
         dispatch({ type: CLUB_SET_CURRENT, payload: user.clubs[0] });
-        dispatch({ type: APP_SET_STATE_INITIALIZED, payload: true });
         dispatch({ type: MEMBER_SET_ALL, payload: user.clubs[0].members });
 
-        // Must be dispatched last as this changes the state of authentication
+        // Setting the user in redux and localstorage to preserve authentication state
         localStorage.setItem('user', JSON.stringify(user))
         dispatch({ type: USER_LOGIN, payload: user });
+
+        dispatch({ type: APP_SET_STATE_INITIALIZED, payload: true });
 
         return user;
       }

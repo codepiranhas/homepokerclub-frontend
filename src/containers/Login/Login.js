@@ -59,13 +59,8 @@ class Login extends Component {
         if (!user.isFirstLogin) {
           this.props.notifications.showSuccess('Welcome back!');
         }
-        console.log('res @ login', user);
       })
-      .catch(err => {
-        console.log('err: ', err);
-        console.log('err.response: ', err.response);
-        console.log('err.message: ', err.message);
-        
+      .catch(err => {  
         this.props.notifications.showError(err.response.data.message);
         this.setState({ isLoading: false }, () => {});
       });

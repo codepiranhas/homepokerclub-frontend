@@ -45,10 +45,11 @@ const Router = ({ childProps, location }) => {
 
   // Using React Hooks to access the redux store and its actions
   const app = useSelector(state => state.app);
+  const user = useSelector(state => state.user);
   const dispatch = useDispatch();
 
-  if (!app.isStateInitialized) {
-    // If the app is not initialized,
+  if (!app.isStateInitialized && user.token) {
+    // If the app is not initialized but the user is logged in,
     // (when user doesn't come from login, but from a bookmark / refresh)
     // then we call an action that initializes the must-have content.
     dispatch(appActions.initializeState());

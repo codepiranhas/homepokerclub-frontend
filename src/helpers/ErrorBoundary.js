@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { withNotifications } from '../hocs/WithNotifications';
 
 class ErrorBoundary extends Component {
@@ -29,7 +29,7 @@ class ErrorBoundary extends Component {
   render() {
     if (this.state.hasError) {
       this.redirectHome();
-      
+
       return (
         <div class="fullheight display-flex flex-center-center flex-direction-column">
           <h1 class="space-below"> Oh no! Something went terribly wrong.</h1>

@@ -3,7 +3,6 @@ import {
   APP_SET_MEMBERS_FILTER,
   APP_SET_STATE_INITIALIZED,
   APP_SET_STATE_INITIALIZING,
-  APP_UNSET_STATE_INITIALIZING,
 } from '../actions/types';
 
 const defaultState = {
@@ -22,13 +21,10 @@ export default function(state = defaultState, action) {
       return { ...state, membersFilter: action.payload };
 
     case APP_SET_STATE_INITIALIZED:
-      return { ...state, isStateInitialized: true };
+      return { ...state, isStateInitialized: action.payload };
 
     case APP_SET_STATE_INITIALIZING:
-      return { ...state, isStateInitializing: true };
-    
-      case APP_UNSET_STATE_INITIALIZING:
-      return { ...state, isStateInitializing: false };
+      return { ...state, isStateInitializing: action.payload };
 
     default:
       return state;
