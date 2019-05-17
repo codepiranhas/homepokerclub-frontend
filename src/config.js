@@ -12,11 +12,13 @@ console.log('===> NODE_ENV @ KEYS: ', process.env.NODE_ENV);
 console.log('===> REACT_APP_ENV @ KEYS: ', process.env.REACT_APP_ENV);
 
 const development = {
-  backendUrl: 'https://homepokerclub-development.herokuapp.com'
+  backendUrl: 'https://homepokerclub-development.herokuapp.com',
+  s3BucketUrl: 'https://s3.amazonaws.com/homepokerclub',
 }
 
 const production = {
-  backendUrl: 'https://homepokerclub-production.herokuapp.com' // TODO: Change it to the correct one
+  backendUrl: 'https://homepokerclub-production.herokuapp.com',
+  s3BucketUrl: 'https://s3.amazonaws.com/homepokerclub',
 }
 
 const config = process.env.REACT_APP_ENV === 'production'
@@ -32,7 +34,7 @@ if (process.env.REACT_APP_ENV) {
 
   config.backendUrl = input[1]
     ? `http://localhost:${input[1]}`
-    : `https://homepokerclub-${input[0]}.herokuapp.com` // TODO: Change it to the correct one
+    : `https://homepokerclub-${input[0]}.herokuapp.com`
 }
 
 /**

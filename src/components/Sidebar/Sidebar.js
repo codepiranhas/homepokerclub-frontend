@@ -73,6 +73,8 @@ class ResponsiveDrawer extends React.Component {
   };
 
   buildLinks = () => {
+    if (!this.props.club.current) { return []; }
+    
     return [
       { label: 'Home', route: `/clubs/${this.props.club.current._id}` },
       { label: 'Tournaments', route: `/clubs/${this.props.club.current._id}/tournaments` },
@@ -86,8 +88,6 @@ class ResponsiveDrawer extends React.Component {
   };
 
   handleNavigation = (route) => {
-    console.log('this.props.history', this.props.history);
-    // return this.props.history.push(`members/delete`);
     this.props.history.push(route);
     if (this.state.mobileOpen) {
       this.handleDrawerToggle();

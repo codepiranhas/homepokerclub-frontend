@@ -75,8 +75,8 @@ class Account extends Component {
   }
 }
 
-function mapStateToProps({ user }) {
-  return { user };
+function mapStateToProps({ user, app }) {
+  return { user, app };
 }
 
 // Example using the context API to give access to notifications on this component

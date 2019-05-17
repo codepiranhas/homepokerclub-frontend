@@ -13,6 +13,24 @@ import green from '@material-ui/core/colors/green';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Input from '../../components/Input/Input';
 import Avatar from '../../components/Avatar/Avatar';
+import styled from 'styled-components';
+import config from '../../config';
+
+const Img = styled.img`
+  width: 180px;
+  height: 180px;
+  border: solid var(--c-accent) 2px;
+  border-radius: 90px;
+`;
+
+const LoadingOverlay = styled.div`
+position: absolute;
+width: 2000px;
+height: 2000px;
+background-color: #111;
+opacity: 0.6;
+z-index: 999;
+`
 
 const buttonTheme = createMuiTheme({
   palette: { primary: green }
@@ -59,49 +77,54 @@ class MemberDetailsModal extends React.Component {
       memberId: null,
       name: '',
       email: '',
+      file: null,
+      imageUrl: null,
+      isLoading: false,
     };
+
+    this.hiddenFileInput = React.createRef();
   }
   
   componentDidMount() {
     this.setState({ mode: this.props.mode });
     
     if (this.props.mode === 'edit') {
-      const { name, email, _id } = this.props.member;
+      const { name, email, _id, imageUrl } = this.props.member;
+
+      console.log('member @ ModalStyle: ', this.props.member);
 
       this.setState({
         name: name || '',
         email: email || '',
-        memberId: _id
+        memberId: _id,
+        imageUrl,
       });
     }
   }
-	
-  handleClose = () => {
-    this.props.onDismiss({
-      action: 'clickedOutside',
-      data: this.state
-    });
-  };
 
-  handleCancel = () => {
+  onCancel = () => {
     this.props.onDismiss({
       action: 'cancelled',
       data: this.state
     });
   }
 
-  handleOk = () => {
-    const { name, email, memberId } = this.state;
+  onSave = async () => {
+    const { name, email, memberId, file, imageUrl } = this.state;
     const { addToClub, updateMember, mode } = this.props;
     let action = '';
 
+    this.setState({ isLoading: true });
+
     if (mode === 'create') {
-      addToClub(name.slice(0, 25), email); // TODO: Make the input to stop accepting more chars instead
+      await addToClub(name.slice(0, 25), email, file); // TODO: Make the input to stop accepting more chars instead
       action = 'created';
     } else if (mode === 'edit') {
       action = 'updated'
-      updateMember(name.slice(0.25), email, memberId);
+      await updateMember(name.slice(0.25), email, memberId, file, imageUrl); // TODO: Make the input to stop accepting more chars instead
     }
+
+    this.setState({ isLoading: false });
 
     this.props.onDismiss({
       action,
@@ -113,17 +136,59 @@ class MemberDetailsModal extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleUploadAvatar = event => {
-    console.log('event @ upload: ', event);
+  onUploadAvatar = () => {
+    console.log('upload clicked')
+    this.hiddenFileInput.current.click();
+  }
+
+  onFileChange = event => {
+    const file = event.target.files[0];
+
+    if (file.size > 597152){
+      return this.props.notifications.showError('File is too large. Please upload images up to 0.5 MB.')
+    };
+
+    const tempImageUrl = URL.createObjectURL(file);
+
+    this.setState({ file, tempImageUrl })
+  }
+
+  renderAvatar() {
+    if (this.state.tempImageUrl) {
+      return (
+        <Img
+          src={this.state.tempImageUrl}
+          alt="member avatar"
+        /> 
+      )
+    }
+    else if (this.state.imageUrl) {
+      return (
+        <Img
+          src={`${config.s3BucketUrl}/${this.state.imageUrl}`}
+          alt="member avatar"
+        /> 
+      )
+    } else {
+      return (
+        <Avatar size="superLarge">
+          <FontAwesomeIcon
+            icon={'user-tie'}
+            size={'lg'}
+            color={'#333'}
+          />
+        </Avatar>
+      );
+    }
   }
 
   render() {
     const { mode } = this.props;
-    const { name, email } = this.state;
+    const { name, email, isLoading } = this.state;
 
     return (
       <Dialog
-        onClose={this.handleClose}
+        onClose={this.onCancel}
         aria-labelledby="customized-dialog-title"
         open={this.props.isOpen}
       >
@@ -137,18 +202,19 @@ class MemberDetailsModal extends React.Component {
 
         <DialogContent>
           <div className="space-above wide-space-below display-flex flex-justify-center fullwidth">
-            <Avatar size="superLarge">
-            <FontAwesomeIcon
-                icon={'user-tie'}
-                size={'lg'}
-                color={'#333'}
-              />
-            </Avatar>
+            {this.renderAvatar()}
+            {/* <LoadingOverlay>Loading...</LoadingOverlay> */}
           </div>
 
           <div className="super-wide-space-below display-flex flex-justify-center">
-          <Button onClick={this.handleUploadAvatar} type="button" variant="primary" size="small">Upload Image</Button>
-          <input type='file' hidden />
+            <Button onClick={this.onUploadAvatar} type="button" variant="primary" size="small">Upload Image</Button>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={this.onFileChange}
+              hidden
+              ref={this.hiddenFileInput}
+            />
           </div>
 
           <div className="wide-space-below text-center">
@@ -157,7 +223,7 @@ class MemberDetailsModal extends React.Component {
           </div>
 
           <div className="fullwdith">
-            <form className="display-flex flex-direction-column fullwidth" onSubmit={this.handleOk}>
+            <form className="display-flex flex-direction-column fullwidth" onSubmit={this.onSave}>
               <div className='display-flex flex-justify-center fullwidth space-below'>
                 <Input onChange={this.handleInput} value={name} name="name" placeholder="Name" autoFocus />
               </div>
@@ -172,14 +238,14 @@ class MemberDetailsModal extends React.Component {
           <div className="display-flex fullwidth fullheight">
             <div className="leftAction flex-1 wide-space-left">
               <MuiThemeProvider theme={buttonTheme}>
-                <Button onClick={this.handleCancel} variant="plain">
+                <Button onClick={this.onCancel} variant="plain">
                   CANCEL
                 </Button> 
               </MuiThemeProvider>
             </div>
             <div className="rightAction flex-1 wide-space-right display-flex flex-justify-end">
               <MuiThemeProvider theme={buttonTheme}>
-                <Button onClick={this.handleOk} type="submit" variant="primary">
+                <Button onClick={this.onSave} isLoading={isLoading} type="submit" variant="primary">
                 {
                   mode === 'create'
                     ? 'ADD'

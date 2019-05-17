@@ -1,47 +1,68 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
-import { withNotifications } from "../../hocs/WithNotifications";
-// import styled from "styled-components";
-// import { colors } from "../../styles/colors";
-import { userActions, clubActions, appActions } from "../../actions";
+import styled, { keyframes } from "styled-components";
+import { clubActions, appActions } from "../../actions";
 
 import "./Main.css";
 
-class Main extends Component {
-  componentDidMount() {
-    const { club } = this.props
+const Div = styled.div`
+  font-weight: 700;
+  font-size: 72px;
+`
 
-    if (club.current) {
-      this.props.history.push(`/clubs/${club.current._id}`)
-    }
-    else {
-      this.props.history.push(`/login`)
-    }
+const rotate = keyframes`
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+`;
+
+const LoadingIndicator = styled.div`
+  display: inline-flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+
+  position: absolute;
+
+  :after {
+    content: " ";
+    display: block;
+    width: 100px;
+    height: 100px;
+    margin: 1px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    border-color: green;
+    animation: ${rotate} 1.2s linear infinite;
   }
+`;
 
-  handleSelect = (selection) => {
-    if (selection === 'shouldCreateNew') {
-      this.setState({ shouldCreateNew: true, shouldJoinExisting: false });
-    }
-    else {
-      this.setState({ shouldCreateNew: false, shouldJoinExisting: true });
+class Main extends Component {
+  componentDidUpdate() {
+    const { app, club } = this.props;
+
+    if (app.isStateInitialized) {
+      this.props.history.push(`/clubs/${club.current._id}`);
     }
   }
 
   render() {
     return (
-      <div>
-        Main
-      </div>
+      <Div className="display-flex flex-center-center fullheight">
+        <div className="sk-folding-cube">
+          <div className="sk-cube1 sk-cube"></div>
+          <div className="sk-cube2 sk-cube"></div>
+          <div className="sk-cube4 sk-cube"></div>
+          <div className="sk-cube3 sk-cube"></div>
+        </div>
+      </Div>
     );
   }
 }
 
-function mapStateToProps({ club }) {
-  return { club };
+function mapStateToProps({ app, club }) {
+  return { app, club };
 }
 
-// Example using the context API to give access to notifications on this component
-// It can now find the state in its props (this.props.notifications)
-export default withNotifications(withRouter(connect(mapStateToProps, {...userActions, ...clubActions, ...appActions})(Main)));
+export default withRouter(connect(mapStateToProps, { ...clubActions, ...appActions})(Main));

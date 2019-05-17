@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Avatar from '../Avatar/Avatar';
+import config from '../../config';
 // import './MemberCard.css';
 
 const BaseCard = styled.div`
@@ -29,6 +30,13 @@ const AvatarWrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin-right: 20px;
+`;
+
+const Img = styled.img`
+  width: 80px;
+  height: 80px;
+  border: solid var(--c-accent) 2px;
+  border-radius: 90px;
 `;
 
 const DetailsWraper = styled.div`
@@ -69,13 +77,28 @@ const MemberName = styled.h2`
   }
 `;
 
+const renderAvatar = (member) => {
+  if (member.imageUrl) {
+    return (
+      <Img
+        src={`${config.s3BucketUrl}/${member.imageUrl}`}
+        alt="member avatar"
+      /> 
+    );
+  } else {
+    return (
+      <Avatar size="normal" color="green">{member.name[0].toUpperCase()}</Avatar>
+    );
+  }
+}
+
 const MemberCard = ({ member, classes, handleEditMember, handleRemoveMember }) => {
   const { name, email, social } = member;
 
   return (
     <BaseCard>
       <AvatarWrapper className="flex-1">
-        <Avatar size="normal" color="green">{member.name[0].toUpperCase()}</Avatar>
+        {renderAvatar(member)}
       </AvatarWrapper>
       <DetailsWraper className="flex-4">
         <Row1 name={name}>
