@@ -28,8 +28,8 @@ class ErrorBoundary extends Component {
 
   render() {
     if (this.state.hasError) {
-      this.redirectHome()
-      // You can render any custom fallback UI
+      this.redirectHome();
+      
       return (
         <div class="fullheight display-flex flex-center-center flex-direction-column">
           <h1 class="space-below"> Oh no! Something went terribly wrong.</h1>
