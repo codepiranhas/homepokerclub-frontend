@@ -19,8 +19,6 @@ class Members extends Component {
 
   componentDidMount() {
     this.props.setPageHeader('Members');
-
-    throw new Error("An error has occured in Buggy component!");
   }
 
   componentWillUnmount() {
