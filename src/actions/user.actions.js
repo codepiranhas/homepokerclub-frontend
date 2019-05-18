@@ -31,7 +31,6 @@ function signup(user) {
 function login(user) {
   return function(dispatch) {
     return httpRequest('POST', '/v1/users/authenticate', user).then(user => {
-      console.log('user: ', user);
       if (user.isVerified) {
         // Any initialization of the redux store should happen here
         dispatch({ type: CLUB_SET_ALL, payload: user.clubs });

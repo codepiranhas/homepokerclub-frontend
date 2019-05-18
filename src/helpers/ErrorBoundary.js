@@ -6,7 +6,6 @@ class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
     this.state = { hasError: false };
-    console.log('--- error boundary ---: ', props);
   }
 
   componentDidCatch(error, info) {

@@ -48,7 +48,6 @@ class Login extends Component {
   };
 
   loginHandler = async event => {
-    console.log('Log in clicked');
     event.preventDefault(); // Prevents the native functionality of the form
 
     this.setState({ isLoading: true });

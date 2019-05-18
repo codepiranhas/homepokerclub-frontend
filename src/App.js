@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { userActions } from './actions';
+import { appActions } from './actions';
 import Routes from './routes/Routes';
-// import ErrorBoundary from './helpers/ErrorBoundary';
+import LoadingIndicator from './components/LoadingIndicator/LoadingIndicator';
 import './App.css';
 
 /**
@@ -51,34 +51,43 @@ library.add(
 );
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  componentDidMount() {
+    const { app, user } = this.props;
 
-    this.state = {
-      isAuthenticating: true,
-    };
+    if (!app.isStateInitialized && user.token) {
+      // If the app is not initialized but the user is logged in,
+      // (when user doesn't come from login, but from a bookmark / refresh)
+      // then we call an action that initializes the must-have content of the state.
+      this.props.initializeState();
+    }
   }
 
-  componentDidMount() {
-    this.setState({ isAuthenticating: false });
+  renderLoading() {
+    return (
+      <LoadingIndicator />
+    )
   }
 
   render() {
+    const { app, user } = this.props;
+
+    if (!app.isStateInitialized && user.token) {
+      return this.renderLoading();
+    }
+
     return (
-      // <ErrorBoundary>
-        <Routes />
-      // </ErrorBoundary>
+      <Routes />
     );
   }
 }
 
-function mapStateToProps({ user }) {
-  return { user };
+function mapStateToProps({ user, app }) {
+  return { user, app };
 }
 
 export default withRouter(
   connect(
     mapStateToProps,
-    userActions
+    { ...appActions }
   )(App)
 );

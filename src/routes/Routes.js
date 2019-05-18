@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector, useDispatch } from 'react-redux';
+// import { useSelector, useDispatch } from 'react-redux';
 import { Route, Switch, withRouter } from "react-router-dom";
 import Home from "../containers/Home/Home";
 import Main from "../containers/Main/Main";
@@ -24,8 +24,6 @@ import Buttons from "../components/Showcase/Buttons";
 import AuthenticatedRoute from "../hocs/AuthenticatedRoute";
 import UnauthenticatedRoute from "../hocs/UnauthenticatedRoute";
 
-import { appActions } from "../actions";
-
 /**
  * Here we set all the routes that we do not want to render a sidebar
  * Currently used for signup/signin routes, but might be used elsewhere in the future.
@@ -43,17 +41,17 @@ const Router = ({ childProps, location }) => {
     return location.pathname.includes(route) || location.pathname === '/';
   });
 
-  // Using React Hooks to access the redux store and its actions
-  const app = useSelector(state => state.app);
-  const user = useSelector(state => state.user);
-  const dispatch = useDispatch();
-
-  if (!app.isStateInitialized && user.token) {
-    // If the app is not initialized but the user is logged in,
-    // (when user doesn't come from login, but from a bookmark / refresh)
-    // then we call an action that initializes the must-have content.
-    dispatch(appActions.initializeState());
-  }
+  /**
+   * Using React Hooks to access the redux store and its actions
+   * Not used anymore but keeping for documentation
+   */
+  // const app = useSelector(state => state.app);
+  // const user = useSelector(state => state.user);
+  // const dispatch = useDispatch();
+  //
+  // if (!app.isStateInitialized && user.token) {
+  //   dispatch(appActions.initializeState());
+  // }
 
   // childProps aren't passed anymore, but keeping it for demonstration reasons.
   const allRoutes = 

@@ -16,13 +16,13 @@ import App from "./App";
 // CSS Reset (normalize)
 import "./index.css";
 
-// Importing all the reducers to pass in the store
+// Import all the reducers to pass in the store
 import reducers from './reducers';
 
-// Enabling Redux Dev Tools
+// Enable Redux Dev Tools
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-// All redux middleware to pass in the store
+// Gather all redux middleware to pass in the store
 const middleware = [thunkMiddleware];
 
 /**
@@ -44,7 +44,9 @@ const middleware = [thunkMiddleware];
 //
 // const persistor = persistStore(store);
 
-// Without redux-persist
+/**
+ *  Without redux-persist
+ */
 const store = createStore(
   combineReducers(reducers),
   composeEnhancers(
