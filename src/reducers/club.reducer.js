@@ -7,7 +7,6 @@ import {
 const defaultState = {
   all: [],
   current: null,
-  members: [],
 };
 
 export default function(state = defaultState, action) {

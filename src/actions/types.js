@@ -10,10 +10,12 @@ export const APP_SET_MEMBERS_FILTER = 'app_set_members_filter';
 export const APP_SET_STATE_INITIALIZED = 'app_set_state_initialized';
 export const APP_SET_STATE_INITIALIZING = 'app_set_state_initializing';
 
-export const TOURNAMENT_GET_ALL = 'tournament_get_all';
 export const TOURNAMENT_CREATE = 'tournament_create';
+export const TOURNAMENT_SET_ALL = 'tournament_get_all';
+export const TOURNAMENT_SET_IS_LOADING = 'tournament_set_is_loading';
+export const TOURNAMENT_SET_HAS_ERROR = 'tournament_has_error';
 
-export const MEMBER_SET_ALL = 'member_set_all';
 export const MEMBER_ADD = 'member_add';
+export const MEMBER_SET_ALL = 'member_set_all';
 export const MEMBER_UPDATE = 'member_update';
 export const MEMBER_REMOVE = 'member_remove';

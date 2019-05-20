@@ -4,6 +4,7 @@ import {
   MEMBER_ADD,
   MEMBER_UPDATE,
   MEMBER_REMOVE,
+  SAVE_LOGO,
 } from './types';
 
 export const clubActions = {
@@ -11,6 +12,7 @@ export const clubActions = {
   addToClub,
   updateMember,
   removeFromClub,
+  saveLogo,
 };
 
 function createClub(club) {
@@ -47,6 +49,25 @@ function addToClub(name, email, file) {
 
     dispatch({ type: MEMBER_ADD, payload: res.club.members });
   };
+}
+
+async function saveLogo(file, previousImageUrl) {
+  if (!file) { return false; }
+
+  // Delete the previous avatar, if exists.
+  if (previousImageUrl) {
+    httpRequest('DELETE', '/v1/uploads/deleteAvatar', { url: previousImageUrl });
+  }
+
+  const uploadConfig = await httpRequest('POST', '/v1/uploads/getSignedUrl', { type: file.type });
+
+  await axios.put(uploadConfig.url, file, {
+    headers: {
+      'Content-Type': file.type,
+    }
+  });
+  
+  return uploadConfig;
 }
 
 async function uploadAvatar(file, previousImageUrl) {

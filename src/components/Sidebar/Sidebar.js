@@ -18,7 +18,7 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from "react-router-dom";
 import Avatar from "../Avatar/Avatar";
-import Button from '../Button/Button';
+// import Button from '../Button/Button';
 
 import './Sidebar.css';
 
@@ -127,7 +127,8 @@ class ResponsiveDrawer extends React.Component {
         <Divider />
 
         <div className="space-left space-right wide-space-below flex-1 display-flex flex-align-end">
-          <Button fullwidth>Change club</Button>
+          {/* Commented out until multiple clubs are an active feature */}
+          {/* <Button fullwidth>Change club</Button> */}
         </div>
         
       </div>

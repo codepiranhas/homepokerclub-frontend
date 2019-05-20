@@ -21,7 +21,7 @@ class ErrorBoundary extends Component {
   redirectHome() {
     setTimeout(() => {
       const url = window.location.href;
-      window.location.replace(url);
+      // window.location.replace(url);
     }, 3000);
   }
 

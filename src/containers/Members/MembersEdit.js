@@ -7,7 +7,7 @@ import { makeGetFilteredMembers } from '../../selectors';
 import MemberDetailsModal from '../../Modals/MemberDetailsModal/MemberDetailsModal';
 import "./Members.css";
 
-class MembersEdit extends React.Component {
+class MembersEdit extends Component {
   findMember(members) {
     const memberId = this.props.match.params.memberId;
     const member = members.find(member => member._id === memberId);

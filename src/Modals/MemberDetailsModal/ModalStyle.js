@@ -23,15 +23,6 @@ const Img = styled.img`
   border-radius: 90px;
 `;
 
-const LoadingOverlay = styled.div`
-position: absolute;
-width: 2000px;
-height: 2000px;
-background-color: #111;
-opacity: 0.6;
-z-index: 999;
-`
-
 const buttonTheme = createMuiTheme({
   palette: { primary: green }
 })
@@ -79,6 +70,7 @@ class MemberDetailsModal extends React.Component {
       email: '',
       file: null,
       imageUrl: null,
+      tempImageUrl: null,
       isLoading: false,
     };
 
@@ -201,7 +193,6 @@ class MemberDetailsModal extends React.Component {
         <DialogContent>
           <div className="space-above wide-space-below display-flex flex-justify-center fullwidth">
             {this.renderAvatar()}
-            {/* <LoadingOverlay>Loading...</LoadingOverlay> */}
           </div>
 
           <div className="super-wide-space-below display-flex flex-justify-center">
