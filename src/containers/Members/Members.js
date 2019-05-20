@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import MediaQuery from 'react-responsive';
 import { withNotifications } from "../../hocs/WithNotifications";
-import { clubActions, appActions } from "../../actions";
+import { clubActions, appActions, memberActions } from "../../actions";
 import MemberCard from "../../components/MemberCard/MemberCard";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
@@ -35,6 +35,8 @@ class Members extends Component {
   }
 
   handleEditMember = (member) => {
+    this.props.setCurrentMember(member);
+
     this.props.history.push({
       pathname: `members/${member._id}/edit`,
       state: { member: member }, // Not used, but keeping it to show how to pass parameters
@@ -102,4 +104,4 @@ function makeMapStateToProps() {
   return mapStateToProps
 }
 
-export default withNotifications(withRouter(connect(makeMapStateToProps, { ...clubActions, ...appActions})(Members)));
+export default withNotifications(withRouter(connect(makeMapStateToProps, { ...clubActions, ...appActions, ...memberActions})(Members)));

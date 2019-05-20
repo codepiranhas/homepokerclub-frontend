@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { withNotifications } from "../../hocs/WithNotifications";
-import { clubActions } from "../../actions";
+import { clubActions, memberActions } from "../../actions";
 import { makeGetFilteredMembers } from '../../selectors';
 import MemberDetailsModal from '../../Modals/MemberDetailsModal/MemberDetailsModal';
 import "./Members.css";
@@ -13,6 +13,10 @@ class MembersEdit extends Component {
     const member = members.find(member => member._id === memberId);
 
     return member;
+  }
+
+  componentWillUnmount() {
+    this.props.setCurrentMember(null);
   }
   
   onDismiss = (result) => {
@@ -41,7 +45,9 @@ class MembersEdit extends Component {
   }
 
   render() {
-    const member = this.findMember(this.props.members);
+    // Get the members from the redux state or find it from the list of members.
+    // The second part is needed on situations like page refresh or using a bookmarked url.
+    const member = this.props.member || this.findMember(this.props.members)
 
     return member
       ? this.renderModal(member)
@@ -58,10 +64,11 @@ function makeMapStateToProps() {
   const mapStateToProps = (state) => {
     return {
       club: state.club,
-      members: getFilteredMembers(state)
+      member: state.member.current,
+      members: getFilteredMembers(state),
     }
   }
   return mapStateToProps
 }
 
-export default withNotifications(withRouter(connect(makeMapStateToProps, { ...clubActions })(MembersEdit)));
+export default withNotifications(withRouter(connect(makeMapStateToProps, { ...clubActions, ...memberActions })(MembersEdit)));

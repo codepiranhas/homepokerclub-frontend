@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 
-const getMembersFilter = state => state.app.membersFilter;
+const getMembersFilter = state => state.member.membersFilter;
 
 /**
  * We filter out the members that have been deleted by the user.

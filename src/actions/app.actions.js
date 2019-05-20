@@ -1,7 +1,6 @@
 import httpRequest from '../helpers/httpRequest';
 import {
 	APP_SET_PAGE_HEADER,
-	APP_SET_MEMBERS_FILTER,
 	APP_SET_STATE_INITIALIZED,
 	APP_SET_STATE_INITIALIZING,
 	CLUB_SET_ALL,
@@ -11,7 +10,6 @@ import {
 
 export const appActions = {
 	setPageHeader,
-	setMembersFilter,
 	initializeState
 };
 
@@ -19,13 +17,6 @@ function setPageHeader(header) {
 	return({
 		type: APP_SET_PAGE_HEADER,
 		payload: header
-	})
-}
-
-function setMembersFilter(filterString) {
-	return({
-		type: APP_SET_MEMBERS_FILTER,
-		payload: filterString
 	})
 }
 

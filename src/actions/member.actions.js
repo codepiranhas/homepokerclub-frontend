@@ -1,26 +1,28 @@
 // import httpRequest, { axios } from '../helpers/httpRequest';
 import {
+  MEMBER_SET_CURRENT,
+  MEMBER_SET_FILTER,
   // CLUB_CREATE,
   // MEMBER_SET_ALL,
-  // CLUB_REMOVE_MEMBER,
   // CLUB_SET_ALL
 } from './types';
 
-export const clubActions = {
-  // setAll,
+export const memberActions = {
+  setCurrentMember,
+  setMembersFilter,
 };
 
-// function setAll(name, email, file) {
-//   return async (dispatch, getState) => {
-//     const club = getState().club;
 
-//     if (!club.current) {
-//       const errorMessage = 'An error occured.';
-//       throw errorMessage;
-//     }
+function setCurrentMember(member) {
+	return({
+		type: MEMBER_SET_CURRENT,
+		payload: member
+	})
+}
 
-//     const members = [];
-
-//     dispatch({ type: MEMBER_SET_ALL, payload: members });
-//   };
-// }
+function setMembersFilter(filterString) {
+	return({
+		type: MEMBER_SET_FILTER,
+		payload: filterString
+	})
+}
