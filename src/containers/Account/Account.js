@@ -23,27 +23,17 @@ class Account extends Component {
     super(props);
 
     this.state = {
-      shouldCreateNew: false,
-      shouldJoinExisting: false,
       file: null,
-      imageUrl: null,
-      tempImageUrl: null,
+      isLogoUploading: false,
     };
 
+    // Used to be able to programmatically click the hidden 
+    // input element when the user clicks the upload button.
     this.hiddenFileInput = React.createRef();
   }
 
   componentDidMount() {
     this.props.setPageHeader('Account');
-  }
-
-  handleSelect = (selection) => {
-    if (selection === 'shouldCreateNew') {
-      this.setState({ shouldCreateNew: true, shouldJoinExisting: false });
-    }
-    else {
-      this.setState({ shouldCreateNew: false, shouldJoinExisting: true });
-    }
   }
 
   handleCreateClub = () => {
@@ -74,27 +64,23 @@ class Account extends Component {
       return this.props.notifications.showError('File is too large. Please upload images up to 1 MB.')
     };
 
-    const tempImageUrl = URL.createObjectURL(file);
+    this.setState({ isLogoUploading: true });
 
-    this.setState({ file, tempImageUrl })
-
-    // Actually save the logo
-    this.props.saveLogo(file);
+    // Call the redux action to save the club logo
+    this.props.updateLogo(file)
+      .then(() => {
+        // Wait a little more to let the <img> load to catchup.
+        setTimeout(() => {
+          this.setState({ isLogoUploading: false });
+        }, 500);
+      });
   }
 
   renderLogo() {
-    if (this.state.tempImageUrl) {
+    if (this.props.club.current.logoUrl) {
       return (
         <Img
-          src={this.state.tempImageUrl}
-          alt="member avatar"
-        /> 
-      )
-    }
-    else if (this.state.imageUrl) {
-      return (
-        <Img
-          src={`${config.s3BucketUrl}/${this.state.imageUrl}`}
+          src={`${config.s3BucketUrl}/${this.props.club.current.logoUrl}`}
           alt="member avatar"
         /> 
       )
@@ -106,12 +92,14 @@ class Account extends Component {
   }
 
   render() {
+    const { isLogoUploading } = this.state;
+
     return (
       <div className="display-flex flex-direction-column flex-align-center">
         {this.renderLogo()}
 
         <div className="wide-space-around display-flex flex-justify-center">
-          <Button onClick={this.onUploadAvatar} type="button" variant="primary" size="small">Upload Logo</Button>
+          <Button onClick={this.onUploadAvatar} isLoading={isLogoUploading} type="button" variant="primary" size="small">Upload Logo</Button>
           <input
             type="file"
             accept="image/*"
@@ -134,8 +122,8 @@ class Account extends Component {
   }
 }
 
-function mapStateToProps({ user, app }) {
-  return { user, app };
+function mapStateToProps({ user, app, club }) {
+  return { user, app, club };
 }
 
 // Example using the context API to give access to notifications on this component

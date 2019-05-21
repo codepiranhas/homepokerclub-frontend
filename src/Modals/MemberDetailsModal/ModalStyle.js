@@ -69,8 +69,8 @@ class MemberDetailsModal extends React.Component {
       name: '',
       email: '',
       file: null,
-      imageUrl: null,
-      tempImageUrl: null,
+      avatarUrl: null,
+      tempAvatarUrl: null,
       isLoading: false,
     };
 
@@ -81,13 +81,13 @@ class MemberDetailsModal extends React.Component {
     this.setState({ mode: this.props.mode });
     
     if (this.props.mode === 'edit') {
-      const { name, email, _id, imageUrl } = this.props.member;
+      const { name, email, _id, avatarUrl } = this.props.member;
 
       this.setState({
         name: name || '',
         email: email || '',
         memberId: _id,
-        imageUrl,
+        avatarUrl,
       });
     }
   }
@@ -100,7 +100,7 @@ class MemberDetailsModal extends React.Component {
   }
 
   onSave = async () => {
-    const { name, email, memberId, file, imageUrl } = this.state;
+    const { name, email, memberId, file, avatarUrl } = this.state;
     const { addToClub, updateMember, mode } = this.props;
     let action = '';
 
@@ -111,7 +111,7 @@ class MemberDetailsModal extends React.Component {
       action = 'created';
     } else if (mode === 'edit') {
       action = 'updated'
-      await updateMember(name.slice(0.25), email, memberId, file, imageUrl); // TODO: Make the input to stop accepting more chars instead
+      await updateMember(name.slice(0.25), email, memberId, file, avatarUrl); // TODO: Make the input to stop accepting more chars instead
     }
 
     this.setState({ isLoading: false });
@@ -138,24 +138,24 @@ class MemberDetailsModal extends React.Component {
       return this.props.notifications.showError('File is too large. Please upload images up to 0.5 MB.')
     };
 
-    const tempImageUrl = URL.createObjectURL(file);
+    const tempAvatarUrl = URL.createObjectURL(file);
 
-    this.setState({ file, tempImageUrl })
+    this.setState({ file, tempAvatarUrl })
   }
 
   renderAvatar() {
-    if (this.state.tempImageUrl) {
+    if (this.state.tempAvatarUrl) {
       return (
         <Img
-          src={this.state.tempImageUrl}
+          src={this.state.tempAvatarUrl}
           alt="member avatar"
         /> 
       )
     }
-    else if (this.state.imageUrl) {
+    else if (this.state.avatarUrl) {
       return (
         <Img
-          src={`${config.s3BucketUrl}/${this.state.imageUrl}`}
+          src={`${config.s3BucketUrl}/${this.state.avatarUrl}`}
           alt="member avatar"
         /> 
       )
