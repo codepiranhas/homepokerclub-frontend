@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from "react-router-dom";
-import { withNotifications } from '../hocs/WithNotifications';
+import history from '../helpers/history';
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -12,7 +11,7 @@ class ErrorBoundary extends Component {
     console.log('ERROR BOUNDARY - error: ', error);
     console.log('ERROR BOUNDARY - info: ', info);
 
-  this.props.history.replace('/');
+  history.replace('/');
   
   // Display fallback UI
   this.setState({ hasError: true });
@@ -21,7 +20,7 @@ class ErrorBoundary extends Component {
   redirectHome() {
     setTimeout(() => {
       const url = window.location.href;
-      // window.location.replace(url);
+      window.location.replace(url);
     }, 3000);
   }
 
@@ -40,4 +39,4 @@ class ErrorBoundary extends Component {
   }
 }
 
-export default withRouter(withNotifications(ErrorBoundary));
+export default ErrorBoundary;
