@@ -6,6 +6,7 @@ import {
 	CLUB_SET_ALL,
 	CLUB_SET_CURRENT,
 	MEMBER_SET_ALL,
+	USER_LOGOUT,
 } from './types';
 
 export const appActions = {
@@ -20,21 +21,13 @@ function setPageHeader(header) {
 	})
 }
 
-function initializeState(data = {}) {
+function initializeState(history, data = {}) {
   return function(dispatch, getState) {
 		const user = getState().user;
 		const app = getState().app;
 
-		console.log('user: ', user)
-
 		if (app.isStateInitializing) {
-			return true;
-		}
-
-		if (!user.token) {
-			// TODO: Redirect to login if needed
-			const errorMessage = 'An error occured.';
-			throw errorMessage;
+			return;
 		}
 
 		const dataToFetch = { userId: user._id, ...data }
@@ -43,18 +36,20 @@ function initializeState(data = {}) {
 
 		httpRequest('POST', '/v1/users/initializeState', dataToFetch)
 			.then(data => {
-				console.log('data: ', data);
-				
 				if (data) {
 					// Any initialization of the redux store should happen here
 					dispatch({ type: CLUB_SET_ALL, payload: data.user.clubs });
 					dispatch({ type: CLUB_SET_CURRENT, payload: data.user.clubs[0] });
+					dispatch({ type: MEMBER_SET_ALL, payload: data.user.clubs[0].members });
 					dispatch({ type: APP_SET_STATE_INITIALIZED, payload: true });
 					dispatch({ type: APP_SET_STATE_INITIALIZING, payload: false });
-					// dispatch({ type: APP_SET_STATE_INITIALIZING, payload: false });
-					dispatch({ type: MEMBER_SET_ALL, payload: data.user.clubs[0].members });
-
-					return true;
+					return;
+				} else {
+					// Should never come here, but if we are unable to initialize the state
+					// then we logout the user and redirect to login page.
+					localStorage.removeItem('user');
+					history.replace('/login');
+					window.location.replace(window.location.href);
 				}
 			})
 			.catch(err => {

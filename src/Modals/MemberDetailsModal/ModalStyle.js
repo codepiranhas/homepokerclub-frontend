@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { clubActions } from '../../actions';
+import { clubActions, memberActions } from '../../actions';
 import { withNotifications } from '../../hocs/WithNotifications';
 import { withStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Button from '../../components/Button/Button';
@@ -101,13 +101,13 @@ class MemberDetailsModal extends React.Component {
 
   onSave = async () => {
     const { name, email, memberId, file, avatarUrl } = this.state;
-    const { addToClub, updateMember, mode } = this.props;
+    const { addMemberToClub, updateMember, mode } = this.props;
     let action = '';
 
     this.setState({ isLoading: true });
 
     if (mode === 'create') {
-      await addToClub(name.slice(0, 25), email, file); // TODO: Make the input to stop accepting more chars instead
+      await addMemberToClub(name.slice(0, 25), email, file); // TODO: Make the input to stop accepting more chars instead
       action = 'created';
     } else if (mode === 'edit') {
       action = 'updated'
@@ -260,6 +260,6 @@ MemberDetailsModal.defaultProps = {
 export default withNotifications(
   connect(
     null,
-    clubActions
+    { ...clubActions, ...memberActions }
   )(MemberDetailsModal)
 );

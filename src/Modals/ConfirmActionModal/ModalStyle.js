@@ -87,19 +87,17 @@ const ConfirmActionModal = ({ children, cancelButton, okButton, isOpen, titleTex
 ConfirmActionModal.propTypes = {
   isOpen: PropTypes.bool,
   titleText: PropTypes.string,
-  okText: PropTypes.string,
-  cancelText: PropTypes.string,
+  okButton: PropTypes.element,
+  cancelButton: PropTypes.element,
   okVariant: PropTypes.oneOf(['primary', 'plain', 'danger']),
   cancelVariant: PropTypes.oneOf(['primary', 'plain', 'danger']),
 };
 
 ConfirmActionModal.defaultProps = {
   isOpen: false,
+  titleText: 'Confirm your action',
   okVariant: 'primary',
   cancelVariant: 'plain',
-  titleText: '',
-  okText: 'OK',
-  cancelText: 'CANCEL',
 }
 
 export { ConfirmActionModal };

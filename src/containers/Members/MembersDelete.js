@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { withNotifications } from "../../hocs/WithNotifications";
-import { userActions, clubActions, appActions } from "../../actions";
+import { userActions, clubActions, appActions, memberActions } from "../../actions";
 // import styled from 'styled-components';
 import Button from "../../components/Button/Button";
 import { makeGetFilteredMembers } from '../../selectors';
@@ -19,11 +19,11 @@ class MembersDelete extends Component {
     };
   }
 
-  componentDidMount() {
+  findMember(members) {
     const memberId = this.props.match.params.memberId;
-    const member = this.props.members.find(member => member._id === memberId)
+    const member = members.find(member => member._id === memberId);
 
-    this.setState({ member })
+    return member;
   }
 
   onCancel = () => {
@@ -31,7 +31,7 @@ class MembersDelete extends Component {
   }
 
   onDelete = (member) => {
-    this.props.removeFromClub(member._id)
+    this.props.removeMemberFromClub(member._id)
       .then(() => {
         this.props.history.push(`/clubs/${this.props.club.current._id}/members`);
         this.props.notifications.showSuccess(`${member.name} removed successfully.`);
@@ -48,6 +48,7 @@ class MembersDelete extends Component {
   }
 
   renderModal(member) {
+    const titleText = 'Delete member';
     const cancelButton = <Button onClick={() => this.onCancel()} variant='plain'>CANCEL</Button>;
     const okButton = <Button onClick={() => this.onDelete(member)} variant='danger'>DELETE</Button>;
 
@@ -60,14 +61,16 @@ class MembersDelete extends Component {
         cancelButton={cancelButton}
         okButton={okButton}
         body={body}
-        titleText='Delete member'
+        titleText={titleText}
         onDismiss={this.onCancel}
       />
     );
   }
 
   render() {
-    const { member } = this.state;
+    // Get the members from the redux state or find it from the list of members.
+    // The second part is needed on situations like page refresh or using a bookmarked url.
+    const member = this.props.member || this.findMember(this.props.members)
 
     return member
       ? this.renderModal(member)
@@ -92,4 +95,7 @@ function makeMapStateToProps() {
   return mapStateToProps
 }
 
-export default withNotifications(withRouter(connect(makeMapStateToProps, {...userActions, ...clubActions, ...appActions})(MembersDelete)));
+export default withNotifications(withRouter(connect(
+  makeMapStateToProps,
+  { ...userActions, ...clubActions, ...appActions, ...memberActions }
+  )(MembersDelete)));

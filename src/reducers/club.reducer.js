@@ -22,8 +22,13 @@ export default function(state = defaultState, action) {
       return { ...state, current: action.payload };
 
     case CLUB_UPDATE_LOGO:
-      console.log('in here with action: ', action);
-      return { ...state, current: { ...state.current, logoUrl: action.payload }};
+      return { 
+        ...state, 
+        current: { 
+          ...state.current,
+          logoUrl: action.payload
+        }
+      };
     default:
       return state;
   }

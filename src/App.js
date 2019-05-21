@@ -52,13 +52,13 @@ library.add(
 
 class App extends Component {
   componentDidMount() {
-    const { app, user } = this.props;
+    const { app, user, history } = this.props;
 
     if (!app.isStateInitialized && user.token) {
       // If the app is not initialized but the user is logged in,
       // (when user doesn't come from login, but from a bookmark / refresh)
       // then we call an action that initializes the must-have content of the state.
-      this.props.initializeState();
+      this.props.initializeState(history);
     }
   }
 

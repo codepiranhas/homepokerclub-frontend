@@ -21,5 +21,5 @@ export async function uploadFile(file, folder) {
 export async function deleteFileByUrl(url) {
   if (!url) { return; }
 
-  httpRequest('DELETE', '/v1/uploads/deleteFile', { url });
+  await httpRequest('DELETE', '/v1/uploads/deleteFile', { url });
 }
