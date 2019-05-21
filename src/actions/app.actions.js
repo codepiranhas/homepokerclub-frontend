@@ -1,4 +1,5 @@
 import httpRequest from '../helpers/httpRequest';
+import history from '../helpers/history';
 import {
 	APP_SET_PAGE_HEADER,
 	APP_SET_STATE_INITIALIZED,
@@ -21,7 +22,7 @@ function setPageHeader(header) {
 	})
 }
 
-function initializeState(history, data = {}) {
+function initializeState(historyz, data = {}) {
   return function(dispatch, getState) {
 		const user = getState().user;
 		const app = getState().app;
@@ -47,9 +48,9 @@ function initializeState(history, data = {}) {
 				} else {
 					// Should never come here, but if we are unable to initialize the state
 					// then we logout the user and redirect to login page.
+					dispatch({ type: USER_LOGOUT, payload: {} });
 					localStorage.removeItem('user');
 					history.replace('/login');
-					window.location.replace(window.location.href);
 				}
 			})
 			.catch(err => {
