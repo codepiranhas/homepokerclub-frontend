@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
-import { clubActions, appActions } from "../../actions";
+import { appActions } from "../../actions";
 import LoadingIndicator from "../../components/LoadingIndicator/LoadingIndicator";
 import "./Main.css";
 
@@ -40,4 +40,4 @@ function mapStateToProps({ app, club }) {
   return { app, club };
 }
 
-export default withRouter(connect(mapStateToProps, { ...clubActions, ...appActions})(Main));
+export default withRouter(connect(mapStateToProps, { ...appActions})(Main));

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -18,9 +19,15 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from "react-router-dom";
 import Avatar from "../Avatar/Avatar";
-// import Button from '../Button/Button';
+import config from '../../config';
 
 import './Sidebar.css';
+
+const Img = styled.img`
+  width: 180px;
+  height: 180px;
+  border-radius: 90px;
+`;
 
 const drawerWidth = 240;
 
@@ -94,6 +101,21 @@ class ResponsiveDrawer extends React.Component {
     }
   }
 
+  renderLogo() {
+    if (this.props.club.current.logoUrl) {
+      return (
+        <Img
+          src={`${config.s3BucketUrl}/${this.props.club.current.logoUrl}`}
+          alt="member avatar"
+        /> 
+      )
+    } else {
+      return (
+        <Avatar size='superLarge' color='green'>C</Avatar>
+      );
+    }
+  }
+
   render() {
     const { classes, theme, children, app } = this.props;
     const links = this.buildLinks();
@@ -110,7 +132,7 @@ class ResponsiveDrawer extends React.Component {
         <Divider />
         
         <div className="display-flex flex-center-center">
-        <Avatar size='superLarge' color='green'>C</Avatar>
+        {this.renderLogo()}
         </div>
         <List>
           {links.map((link) => (

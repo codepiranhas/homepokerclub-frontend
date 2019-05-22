@@ -8,6 +8,7 @@ import Avatar from '../../components/Avatar/Avatar';
 import Button from '../../components/Button/Button';
 import config from '../../config';
 import { userActions, appActions, clubActions } from "../../actions";
+import Input from '../../components/Input/Input';
 
 import "./Account.css";
 
@@ -18,6 +19,38 @@ const Img = styled.img`
   border-radius: 90px;
 `;
 
+const BaseCard = styled.section`
+
+  padding: 20px 20px 20px 25px;
+  margin-bottom: 50px;
+
+  border-radius: 10px;
+
+  width: 100%;
+  max-width: 800px;
+
+  background-color: var(--c-gray-dark80);
+
+  @media (max-width: 1024px) {
+    // width: 100%;
+    // height: 120px;
+  }
+`;
+
+const CardTitle = styled.h2`
+  font-size: 24px;
+  color: var(--c-accent);
+`;
+
+const Label = styled.label`
+  font-size: 16px;
+`
+
+const H2 = styled.h2`
+  color: var(--c-accent);
+  margin-bottom: 5px;
+`
+
 class Account extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +58,11 @@ class Account extends Component {
     this.state = {
       file: null,
       isLogoUploading: false,
+      isDetailsSaving: false,
+      clubName: '',
+      oldPassword: '',
+      newPassword: '',
+      confirmNewPassword: '',
     };
 
     // Used to be able to programmatically click the hidden 
@@ -34,18 +72,31 @@ class Account extends Component {
 
   componentDidMount() {
     this.props.setPageHeader('Account');
+    const { name } = this.props.club.current;
+
+    this.setState({ clubName: name });
   }
 
-  handleCreateClub = () => {
-    console.log('creating new club');
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    // The event.target.name contains the "name" from the input
+    // and then can be used to target the same named key at this.state
+    this.setState({ [name]: value });
+  };
+
+  onSaveClubDetails = () => {
+    const { clubName } = this.state;
+
+    this.setState({ isDetailsSaving: true });
+
+    this.props.updateClubDetails({ clubName })
+      .then(() => this.props.notifications.showSuccess('Club details updated successfully.'))
+      .catch(() => this.props.notifications.showError('Unable to save. Please try again.'))
+      .finally(() => this.setState({ isDetailsSaving: false }))
   }
 
-  handleJoinClub = () => {
-    console.log('joining existing club');
-  }
-
-  handleCreateTournament = () => {
-    console.log('creating new tournament');
+  onSavePassword = () => {
+    console.log('Gotta save password');
   }
 
   handleLogout = () => {
@@ -53,7 +104,6 @@ class Account extends Component {
   }
 
   onUploadAvatar = () => {
-    console.log('upload clicked')
     this.hiddenFileInput.current.click();
   }
 
@@ -77,10 +127,12 @@ class Account extends Component {
   }
 
   renderLogo() {
-    if (this.props.club.current.logoUrl) {
+    const { logoUrl } = this.props.club.current;
+
+    if (logoUrl) {
       return (
         <Img
-          src={`${config.s3BucketUrl}/${this.props.club.current.logoUrl}`}
+          src={`${config.s3BucketUrl}/${logoUrl}`}
           alt="member avatar"
         /> 
       )
@@ -92,14 +144,22 @@ class Account extends Component {
   }
 
   render() {
-    const { isLogoUploading } = this.state;
+    const {
+      isLogoUploading,
+      isDetailsSaving,
+      clubName,
+      oldPassword,
+      newPassword,
+      confirmNewPassword
+    } = this.state;
 
     return (
       <div className="display-flex flex-direction-column flex-align-center">
         {this.renderLogo()}
 
-        <div className="wide-space-around display-flex flex-justify-center">
+        <section className="wide-space-around display-flex flex-justify-center">
           <Button onClick={this.onUploadAvatar} isLoading={isLogoUploading} type="button" variant="primary" size="small">Upload Logo</Button>
+          
           <input
             type="file"
             accept="image/*"
@@ -107,14 +167,65 @@ class Account extends Component {
             hidden
             ref={this.hiddenFileInput}
           />
-        </div>
+        </section>
 
-        <div className="club__name">name</div>
+        <BaseCard className="display-flex flex-direction-column wide-space-above">
+          
+          <div className="text-center">
+            <H2>Current Plan: Basic</H2>
+            <h3>Upgrade to Premium to get amazing new features.</h3>
+            <div className="wide-space-above">
+              <Button>GO PREMIUM</Button>
+            </div>
+          </div>          
+        </BaseCard>
 
-        <div className="account__details">
-          <div className="change__password">change password</div>
-          <div className="delete__account"> delete account</div>
-        </div>
+        <BaseCard className="display-flex flex-direction-column">
+          <CardTitle className="wide-space-below">Club Details</CardTitle>
+          
+          <div>
+            <Label>Club Name</Label>
+            <Input value={clubName} name='clubName' size='small' onChange={this.handleInputChange} placeholder='' />
+          </div>
+
+          <div className="wide-space-above">
+            <Button type='button' onClick={this.onSaveClubDetails} isLoading={isDetailsSaving}>Save</Button>
+          </div>
+        </BaseCard>
+
+        <BaseCard className="display-flex flex-direction-column">
+          <CardTitle className="wide-space-below">Password</CardTitle>
+          
+          <div className="wide-space-below">
+            <Label>Old Password</Label>
+            <Input value={oldPassword} name='oldPassword' size='small' onChange={this.handleInputChange} placeholder='' />
+          </div>
+
+          <div className="wide-space-below">
+            <Label>New Password</Label>
+            <Input value={newPassword} name='newPassword' size='small' onChange={this.handleInputChange} placeholder='' />
+          </div>
+
+          <div>
+            <Label>Confirm New Password</Label>
+            <Input value={confirmNewPassword} name='confirmNewPassword' size='small' onChange={this.handleInputChange} placeholder='' />
+          </div>
+
+          <div className="wide-space-above">
+            <Button type='button' onClick={this.onSavePassword}>Save</Button>
+          </div>
+        </BaseCard>
+
+        <BaseCard className="display-flex flex-direction-column wide-space-above">
+        <CardTitle className="wide-space-below">Danger Zone</CardTitle>
+
+          <h2>Delete Account</h2>
+          <p className="super-tight-space-above">Once you delete your account, there is no going back.</p>
+
+          <div className="wide-space-above">
+            <Button variant='danger'>DELETE ACCOUNT</Button>
+          </div>         
+        </BaseCard>
 
         <button onClick={this.handleLogout}>Logout</button>
       </div>

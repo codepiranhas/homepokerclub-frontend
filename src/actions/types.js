@@ -5,6 +5,7 @@ export const CLUB_CREATE = 'club_create';
 export const CLUB_SET_ALL = 'club_set_all';
 export const CLUB_SET_CURRENT = 'club_set_current';
 export const CLUB_UPDATE_LOGO	 = 'club_update_logo';
+export const CLUB_UPDATE_DETAILS = 'club_update_details';
 
 export const APP_SET_PAGE_HEADER = 'app_set_page_header';
 export const APP_SET_STATE_INITIALIZED = 'app_set_state_initialized';
