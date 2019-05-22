@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
 import { withNotifications } from "../../hocs/WithNotifications";
 // import styled from "styled-components";
-import { userActions, appActions, tournamentActions } from "../../actions";
+import { appActions, tournamentActions } from "../../actions";
 import Button from '../../components/Button/Button';
+import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator';
 
 import './Tournaments.css';
 
@@ -34,6 +35,7 @@ class Tournaments extends Component {
     this.props.setPageHeader('Tournaments');
 
     console.log('this.props @ Tournaments: ', this.props);
+    this.props.getTournaments();
   }
 
   onNewTournament = () => {
@@ -41,14 +43,23 @@ class Tournaments extends Component {
     this.props.createTournament(fakeTournament);
   }
 
+  renderLoading() {
+    return (
+      <div className="display-flex flex-center-center">
+        <LoadingIndicator />
+      </div>    
+    )
+  }
+
   render() {
+    if (this.props.tournament.isLoading) { return this.renderLoading(); }
     console.log('this.props: ', this.props);
     return (
       <div className="tournaments-container">
         <Button onClick={this.onNewTournament}>New Tournament</Button>
 
         <div className="tournaments-grid">
-          {this.props.allTournaments.map(tournament => {
+          {this.props.tournament.all.map(tournament => {
             return (
               <div key={tournament._id}>
                 {tournament.name}
@@ -67,7 +78,7 @@ function mapStateToProps(state) {
   return {
     app: state.app,
     user: state.user,
-    allTournaments: state.tournament.all
+    tournament: state.tournament
   };
 }
 

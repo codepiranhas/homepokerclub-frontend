@@ -13,7 +13,7 @@ console.log('===> REACT_APP_ENV @ KEYS: ', process.env.REACT_APP_ENV);
 
 const development = {
   backendUrl: 'https://homepokerclub-development.herokuapp.com',
-  s3BucketUrl: 'https://s3.amazonaws.com/homepokerclub',
+  s3BucketUrl: 'https://s3.amazonaws.com/homepokerclub-dev',
 }
 
 const production = {

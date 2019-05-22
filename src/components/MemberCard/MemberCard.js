@@ -78,10 +78,10 @@ const MemberName = styled.h2`
 `;
 
 const renderAvatar = (member) => {
-  if (member.imageUrl) {
+  if (member.avatarUrl) {
     return (
       <Img
-        src={`${config.s3BucketUrl}/${member.imageUrl}`}
+        src={`${config.s3BucketUrl}/${member.avatarUrl}`}
         alt="member avatar"
       /> 
     );
@@ -92,7 +92,7 @@ const renderAvatar = (member) => {
   }
 }
 
-const MemberCard = ({ member, classes, handleEditMember, handleRemoveMember }) => {
+const MemberCard = ({ member, handleEditMember, handleRemoveMember }) => {
   const { name, email, social } = member;
 
   return (

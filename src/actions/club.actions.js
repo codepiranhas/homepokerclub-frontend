@@ -1,23 +1,21 @@
-import httpRequest, { axios } from '../helpers/httpRequest';
+import httpRequest from '../helpers/httpRequest';
+import { uploadFile, deleteFileByUrl } from '../helpers/uploadService';
 import {
   // CLUB_CREATE,
-  MEMBER_ADD,
-  MEMBER_UPDATE,
-  MEMBER_REMOVE,
+  CLUB_UPDATE_LOGO,
+  CLUB_UPDATE_DETAILS,
 } from './types';
 
 export const clubActions = {
   createClub,
-  addToClub,
-  updateMember,
-  removeFromClub,
+  updateLogo,
+  updateClubDetails,
 };
 
 function createClub(club) {
   return function(dispatch) {
     return httpRequest('POST', '/v1/clubs/create', club)
-      .then(user => {
-        console.log('club: ', club);
+      .then(club => {
         return club;
       })
       .catch(err => {
@@ -28,81 +26,41 @@ function createClub(club) {
   };
 }
 
-function addToClub(name, email, file) {
+function updateLogo(file, previousImageUrl) {
   return async (dispatch, getState) => {
     const club = getState().club;
 
-    if (!club.current) {
-      const errorMessage = 'An error occured.';
-      throw errorMessage;
-    }
+    if (!file) { return; }
 
-    const uploadConfig = await uploadAvatar(file);
+    // First save the clubs logo in S3 (folder: club-logos)
+    const uploadData = await uploadFile(file, 'club-logos');
 
-    const res = await httpRequest('POST', `/v1/clubs/${club.current._id}/addMember`, {
-      name,
-      email,
-      imageUrl: uploadConfig ? uploadConfig.key : undefined
-    })
+    // Then delete the previous logo
+    await deleteFileByUrl(previousImageUrl);
 
-    dispatch({ type: MEMBER_ADD, payload: res.club.members });
-  };
-}
+    const imageUrl = uploadData.key;
 
-async function uploadAvatar(file, previousImageUrl) {
-  if (!file) { return false; }
-
-  // Delete the previous avatar, if exists.
-  if (previousImageUrl) {
-    httpRequest('DELETE', '/v1/uploads/deleteAvatar', { url: previousImageUrl });
-  }
-
-  const uploadConfig = await httpRequest('POST', '/v1/uploads/getSignedUrl', { type: file.type });
-
-  await axios.put(uploadConfig.url, file, {
-    headers: {
-      'Content-Type': file.type,
-    }
-  });
-  
-  return uploadConfig;
-}
-
-function updateMember(name, email, memberId, file, previousImageUrl) {
-  return async (dispatch, getState) => {
-    const club = getState().club;
-    
-    if (!club.current) {
-      const errorMessage = 'An error occured.';
-      throw errorMessage;
-    }
-
-    const uploadConfig = await uploadAvatar(file, previousImageUrl);
-
-    const res = await httpRequest('PATCH', `/v1/clubs/${club.current._id}/updateMember/${memberId}`, {
-      name,
-      email,
-      imageUrl: uploadConfig ? uploadConfig.key : previousImageUrl ? previousImageUrl : undefined
+    const data = await httpRequest('PATCH', `/v1/clubs/${club.current._id}/updateLogo`, {
+      imageUrl
     });
 
-    console.log('res @ updateMember @ club.actions: ', res);
-    dispatch({ type: MEMBER_UPDATE, payload: res.club.members });
+    dispatch({ type: CLUB_UPDATE_DETAILS, payload: data.club });
+
+    return true;
   };
 }
 
-function removeFromClub(memberId) {
-  return function(dispatch, getState) {
-    const club = getState().club
-    
-    if (!club.current) {
-      const errorMessage = 'An error occured.';
-      throw errorMessage;
-    }
+function updateClubDetails(details) {
+  return async (dispatch, getState) => {
+    const club = getState().club;
+    const { clubName } = details;
 
-    return httpRequest('DELETE', `/v1/clubs/${club.current._id}/removeMember/${memberId}`)
-      .then(res => {
-        console.log('res @ addToClub @ club.actions: ', res);
-        dispatch({ type: MEMBER_REMOVE, payload: res.club.members });
-      })
+    const data = await httpRequest('PATCH', `/v1/clubs/${club.current._id}/updateDetails`, {
+      clubName
+    });
+
+    dispatch({ type: CLUB_UPDATE_DETAILS, payload: data.club });
+
+    return true;
   };
 }

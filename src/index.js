@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router } from "react-router-dom";
+import { Router } from "react-router-dom";
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 // import { persistStore, persistCombineReducers } from "redux-persist";
@@ -12,17 +12,18 @@ import NotificationProvider from './providers/NotificationProvider';
 // import registerServiceWorker from "./registerServiceWorker";
 import ErrorBoundary from './helpers/ErrorBoundary';
 import App from "./App";
+import history from './helpers/history';
 
 // CSS Reset (normalize)
 import "./index.css";
 
-// Importing all the reducers to pass in the store
+// Import all the reducers to pass in the store
 import reducers from './reducers';
 
-// Enabling Redux Dev Tools
+// Enable Redux Dev Tools
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-// All redux middleware to pass in the store
+// Gather all redux middleware to pass in the store
 const middleware = [thunkMiddleware];
 
 /**
@@ -44,7 +45,9 @@ const middleware = [thunkMiddleware];
 //
 // const persistor = persistStore(store);
 
-// Without redux-persist
+/**
+ *  Without redux-persist
+ */
 const store = createStore(
   combineReducers(reducers),
   composeEnhancers(
@@ -55,7 +58,7 @@ const store = createStore(
 ReactDOM.render(
   <Provider store={store}>
   {/* <PersistGate persistor={persistor}> */}
-    <Router>
+    <Router history={history}>
       <SnackbarProvider>
         <NotificationProvider>
           <ErrorBoundary>

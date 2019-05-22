@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
-import { withRouter, Link } from "react-router-dom";
-import { withNotifications } from '../hocs/WithNotifications';
+import history from '../helpers/history';
 
 class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
     this.state = { hasError: false };
-    console.log('--- error boundary ---: ', props);
   }
 
   componentDidCatch(error, info) {
     console.log('ERROR BOUNDARY - error: ', error);
     console.log('ERROR BOUNDARY - info: ', info);
 
-  this.props.history.replace('/');
+  history.replace('/');
   
   // Display fallback UI
   this.setState({ hasError: true });
@@ -28,8 +26,8 @@ class ErrorBoundary extends Component {
 
   render() {
     if (this.state.hasError) {
-      this.redirectHome()
-      // You can render any custom fallback UI
+      this.redirectHome();
+
       return (
         <div class="fullheight display-flex flex-center-center flex-direction-column">
           <h1 class="space-below"> Oh no! Something went terribly wrong.</h1>
@@ -37,8 +35,10 @@ class ErrorBoundary extends Component {
         </div>
       )
     }
+
+    // If there is no error
     return this.props.children;
   }
 }
 
-export default withRouter(withNotifications(ErrorBoundary));
+export default ErrorBoundary;

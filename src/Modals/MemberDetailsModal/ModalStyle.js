@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { clubActions } from '../../actions';
+import { clubActions, memberActions } from '../../actions';
 import { withNotifications } from '../../hocs/WithNotifications';
 import { withStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Button from '../../components/Button/Button';
@@ -22,15 +22,6 @@ const Img = styled.img`
   border: solid var(--c-accent) 2px;
   border-radius: 90px;
 `;
-
-const LoadingOverlay = styled.div`
-position: absolute;
-width: 2000px;
-height: 2000px;
-background-color: #111;
-opacity: 0.6;
-z-index: 999;
-`
 
 const buttonTheme = createMuiTheme({
   palette: { primary: green }
@@ -78,7 +69,8 @@ class MemberDetailsModal extends React.Component {
       name: '',
       email: '',
       file: null,
-      imageUrl: null,
+      avatarUrl: null,
+      tempAvatarUrl: null,
       isLoading: false,
     };
 
@@ -89,15 +81,13 @@ class MemberDetailsModal extends React.Component {
     this.setState({ mode: this.props.mode });
     
     if (this.props.mode === 'edit') {
-      const { name, email, _id, imageUrl } = this.props.member;
-
-      console.log('member @ ModalStyle: ', this.props.member);
+      const { name, email, _id, avatarUrl } = this.props.member;
 
       this.setState({
         name: name || '',
         email: email || '',
         memberId: _id,
-        imageUrl,
+        avatarUrl,
       });
     }
   }
@@ -110,18 +100,18 @@ class MemberDetailsModal extends React.Component {
   }
 
   onSave = async () => {
-    const { name, email, memberId, file, imageUrl } = this.state;
-    const { addToClub, updateMember, mode } = this.props;
+    const { name, email, memberId, file, avatarUrl } = this.state;
+    const { addMemberToClub, updateMember, mode } = this.props;
     let action = '';
 
     this.setState({ isLoading: true });
 
     if (mode === 'create') {
-      await addToClub(name.slice(0, 25), email, file); // TODO: Make the input to stop accepting more chars instead
+      await addMemberToClub(name.slice(0, 25), email, file); // TODO: Make the input to stop accepting more chars instead
       action = 'created';
     } else if (mode === 'edit') {
       action = 'updated'
-      await updateMember(name.slice(0.25), email, memberId, file, imageUrl); // TODO: Make the input to stop accepting more chars instead
+      await updateMember(name.slice(0.25), email, memberId, file, avatarUrl); // TODO: Make the input to stop accepting more chars instead
     }
 
     this.setState({ isLoading: false });
@@ -148,24 +138,24 @@ class MemberDetailsModal extends React.Component {
       return this.props.notifications.showError('File is too large. Please upload images up to 0.5 MB.')
     };
 
-    const tempImageUrl = URL.createObjectURL(file);
+    const tempAvatarUrl = URL.createObjectURL(file);
 
-    this.setState({ file, tempImageUrl })
+    this.setState({ file, tempAvatarUrl })
   }
 
   renderAvatar() {
-    if (this.state.tempImageUrl) {
+    if (this.state.tempAvatarUrl) {
       return (
         <Img
-          src={this.state.tempImageUrl}
+          src={this.state.tempAvatarUrl}
           alt="member avatar"
         /> 
       )
     }
-    else if (this.state.imageUrl) {
+    else if (this.state.avatarUrl) {
       return (
         <Img
-          src={`${config.s3BucketUrl}/${this.state.imageUrl}`}
+          src={`${config.s3BucketUrl}/${this.state.avatarUrl}`}
           alt="member avatar"
         /> 
       )
@@ -203,7 +193,6 @@ class MemberDetailsModal extends React.Component {
         <DialogContent>
           <div className="space-above wide-space-below display-flex flex-justify-center fullwidth">
             {this.renderAvatar()}
-            {/* <LoadingOverlay>Loading...</LoadingOverlay> */}
           </div>
 
           <div className="super-wide-space-below display-flex flex-justify-center">
@@ -271,6 +260,6 @@ MemberDetailsModal.defaultProps = {
 export default withNotifications(
   connect(
     null,
-    clubActions
+    { ...clubActions, ...memberActions }
   )(MemberDetailsModal)
 );

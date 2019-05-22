@@ -1,18 +1,17 @@
 import httpRequest from '../helpers/httpRequest';
+import history from '../helpers/history';
 import {
 	APP_SET_PAGE_HEADER,
-	APP_SET_MEMBERS_FILTER,
 	APP_SET_STATE_INITIALIZED,
 	APP_SET_STATE_INITIALIZING,
-	APP_UNSET_STATE_INITIALIZING,
 	CLUB_SET_ALL,
 	CLUB_SET_CURRENT,
 	MEMBER_SET_ALL,
+	USER_LOGOUT,
 } from './types';
 
 export const appActions = {
 	setPageHeader,
-	setMembersFilter,
 	initializeState
 };
 
@@ -23,48 +22,41 @@ function setPageHeader(header) {
 	})
 }
 
-function setMembersFilter(filterString) {
-	return({
-		type: APP_SET_MEMBERS_FILTER,
-		payload: filterString
-	})
-}
-
-function initializeState(data = {}) {
+function initializeState(historyz, data = {}) {
   return function(dispatch, getState) {
 		const user = getState().user;
 		const app = getState().app;
 
-		console.log('app: ', app)
-
 		if (app.isStateInitializing) {
-			return true;
-		}
-
-		if (!user) {
-			// TODO: Redirect to login if needed
-			const errorMessage = 'An error occured.';
-			throw errorMessage;
+			return;
 		}
 
 		const dataToFetch = { userId: user._id, ...data }
 
 		dispatch({ type: APP_SET_STATE_INITIALIZING, payload: true });
 
-		return httpRequest('POST', '/v1/users/initializeState', dataToFetch).then(data => {
-			console.log('data: ', data);
-			
-      if (data) {
-        // Any initialization of the redux store should happen here
-        dispatch({ type: CLUB_SET_ALL, payload: data.user.clubs });
-        dispatch({ type: CLUB_SET_CURRENT, payload: data.user.clubs[0] });
-				dispatch({ type: APP_SET_STATE_INITIALIZED, payload: true });
+		httpRequest('POST', '/v1/users/initializeState', dataToFetch)
+			.then(data => {
+				if (data) {
+					// Any initialization of the redux store should happen here
+					dispatch({ type: CLUB_SET_ALL, payload: data.user.clubs });
+					dispatch({ type: CLUB_SET_CURRENT, payload: data.user.clubs[0] });
+					dispatch({ type: MEMBER_SET_ALL, payload: data.user.clubs[0].members });
+					dispatch({ type: APP_SET_STATE_INITIALIZED, payload: true });
+					dispatch({ type: APP_SET_STATE_INITIALIZING, payload: false });
+					return;
+				} else {
+					// Should never come here, but if we are unable to initialize the state
+					// then we logout the user and redirect to login page.
+					dispatch({ type: USER_LOGOUT, payload: {} });
+					localStorage.removeItem('user');
+					history.replace('/login');
+				}
+			})
+			.catch(err => {
+				console.log('err @ initializeState @ app.actions: ', err);
 				dispatch({ type: APP_SET_STATE_INITIALIZING, payload: false });
-				dispatch({ type: MEMBER_SET_ALL, payload: data.user.clubs[0].members });
-
-        return true;
-      }
-    });
+			})
   };
 }
 
