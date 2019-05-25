@@ -22,7 +22,7 @@ function setPageHeader(header) {
 	})
 }
 
-function initializeState(historyz, data = {}) {
+function initializeState(data = {}) {
   return function(dispatch, getState) {
 		const user = getState().user;
 		const app = getState().app;

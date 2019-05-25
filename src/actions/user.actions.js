@@ -14,6 +14,7 @@ export const userActions = {
   logout,
   forgotPassword,
   resetPassword,
+  changePassword,
   validateResetPasswordToken,
   socialLogin,
 };
@@ -109,6 +110,20 @@ function resetPassword(data) {
       })
       .catch(err => {
         console.log('err @ resetPassword: ', err.response);
+        return err.response.data.message;
+      });
+  };
+}
+
+function changePassword(oldPassword, newPassword) {
+  return function(dispatch) {
+    return httpRequest('POST', '/v1/users/changePassword', { oldPassword, newPassword })
+      .then(data => {
+        console.log('data @ changePassword: ', data);
+        return data.message;
+      })
+      .catch(err => {
+        console.log('err @ changePassword: ', err.response);
         return err.response.data.message;
       });
   };
