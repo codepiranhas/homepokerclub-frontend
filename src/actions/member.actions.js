@@ -50,7 +50,7 @@ function addMemberToClub(name, email, file) {
     const imageUrl = uploadData ? uploadData.key : undefined
 
     // Then save the member in DB
-    const res = await httpRequest('POST', `/v1/clubs/${club.current._id}/addMember`, {
+    const res = await httpRequest('POST', `/v1/clubs/${club.current._id}/members/create`, {
       name,
       email,
       imageUrl
@@ -69,7 +69,7 @@ function removeMemberFromClub(memberId) {
       throw errorMessage;
     }
 
-    return httpRequest('DELETE', `/v1/clubs/${club.current._id}/removeMember/${memberId}`)
+    return httpRequest('DELETE', `/v1/clubs/${club.current._id}/members/${memberId}`)
       .then(res => {
         console.log('res @ addToClub @ club.actions: ', res);
         dispatch({ type: MEMBER_REMOVE, payload: res.club.members });
@@ -86,22 +86,30 @@ function updateMember(name, email, memberId, file, previousImageUrl) {
       throw errorMessage;
     }
 
+    console.log('file: ', file);
+
     // First save the members avatar in S3 (folder: member-avatars)
     const uploadData = await uploadFile(file, 'member-avatars');
 
-    // Then delete the previous avatar
-    await deleteFileByUrl(previousImageUrl);
+    // Delete the previous avatar if a new one is added
+    if (file) {
+      await deleteFileByUrl(previousImageUrl);
+    }
 
-    const imageUrl = uploadData
+    console.log('uploadData: ', uploadData);
+
+    const avatarUrl = uploadData
       ? uploadData.key
       : previousImageUrl
         ? previousImageUrl
         : null
 
-    const data = await httpRequest('PATCH', `/v1/clubs/${club.current._id}/updateMember/${memberId}`, {
+    console.log('avatarUrl: ', avatarUrl);
+
+    const data = await httpRequest('PATCH', `/v1/clubs/${club.current._id}/members/${memberId}`, {
       name,
       email,
-      imageUrl
+      avatarUrl
     });
 
     dispatch({ type: MEMBER_UPDATE, payload: data.club.members });

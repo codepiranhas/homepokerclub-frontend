@@ -89,7 +89,7 @@ class Account extends Component {
 
     this.setState({ isDetailsSaving: true });
 
-    this.props.updateClubDetails({ clubName })
+    this.props.updateClubName(clubName)
       .then(() => this.props.notifications.showSuccess('Club details updated successfully.'))
       .catch(() => this.props.notifications.showError('Unable to save. Please try again.'))
       .finally(() => this.setState({ isDetailsSaving: false }))
@@ -117,7 +117,7 @@ class Account extends Component {
     this.setState({ isLogoUploading: true });
 
     // Call the redux action to save the club logo
-    this.props.updateLogo(file)
+    this.props.updateClubLogo(file)
       .then(() => {
         // Wait a little more to let the <img> load to catchup.
         setTimeout(() => {
