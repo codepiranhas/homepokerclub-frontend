@@ -23,12 +23,14 @@ import Buttons from "../components/Showcase/Buttons";
 
 import AuthenticatedRoute from "../hocs/AuthenticatedRoute";
 import UnauthenticatedRoute from "../hocs/UnauthenticatedRoute";
+import Authentication from "../containers/Authentication/Authentication";
 
 /**
  * Here we set all the routes that we do not want to render a sidebar
  * Currently used for signup/signin routes, but might be used elsewhere in the future.
  */
 const routesWithoutSidebar = [
+  'authentication',
   'login',
   'signup',
   'forgotpassword',
@@ -38,7 +40,8 @@ const routesWithoutSidebar = [
 
 const Router = ({ childProps, location }) => {
   const hideSidebar = routesWithoutSidebar.some(route => {
-    return location.pathname.includes(route) || location.pathname === '/';
+    // Add '/' url too as an exact match cause 'includes' would match everything
+    return location.pathname.toLowerCase().includes(route) || location.pathname === '/';
   });
 
   /**
@@ -57,6 +60,9 @@ const Router = ({ childProps, location }) => {
   const allRoutes = 
     <Switch>
       <AuthenticatedRoute path="/" exact component={Main} props={childProps} />
+
+      <UnauthenticatedRoute path="/authentication" component={Authentication} props={childProps} />
+      {/* <UnauthenticatedRoute path="/authentication/loginpage" exact component={LoginPage} props={childProps} /> */}
 
       <UnauthenticatedRoute path="/login" exact component={Login} props={childProps} />
       <UnauthenticatedRoute path="/signup" exact component={Signup} props={childProps} />
