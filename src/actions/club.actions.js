@@ -2,14 +2,13 @@ import httpRequest from '../helpers/httpRequest';
 import { uploadFile, deleteFileByUrl } from '../helpers/uploadService';
 import {
   // CLUB_CREATE,
-  CLUB_UPDATE_LOGO,
   CLUB_UPDATE_DETAILS,
 } from './types';
 
 export const clubActions = {
   createClub,
-  updateLogo,
-  updateClubDetails,
+  updateClubLogo,
+  updateClubName,
 };
 
 function createClub(club) {
@@ -26,7 +25,7 @@ function createClub(club) {
   };
 }
 
-function updateLogo(file, previousImageUrl) {
+function updateClubLogo(file, previousImageUrl) {
   return async (dispatch, getState) => {
     const club = getState().club;
 
@@ -38,10 +37,10 @@ function updateLogo(file, previousImageUrl) {
     // Then delete the previous logo
     await deleteFileByUrl(previousImageUrl);
 
-    const imageUrl = uploadData.key;
+    const logoUrl = uploadData.key;
 
-    const data = await httpRequest('PATCH', `/v1/clubs/${club.current._id}/updateLogo`, {
-      imageUrl
+    const data = await httpRequest('PATCH', `/v1/clubs/${club.current._id}`, {
+      logoUrl
     });
 
     dispatch({ type: CLUB_UPDATE_DETAILS, payload: data.club });
@@ -50,13 +49,12 @@ function updateLogo(file, previousImageUrl) {
   };
 }
 
-function updateClubDetails(details) {
+function updateClubName(name) {
   return async (dispatch, getState) => {
     const club = getState().club;
-    const { clubName } = details;
 
-    const data = await httpRequest('PATCH', `/v1/clubs/${club.current._id}/updateDetails`, {
-      clubName
+    const data = await httpRequest('PATCH', `/v1/clubs/${club.current._id}`, {
+      name
     });
 
     dispatch({ type: CLUB_UPDATE_DETAILS, payload: data.club });

@@ -59,6 +59,7 @@ class Account extends Component {
       file: null,
       isLogoUploading: false,
       isDetailsSaving: false,
+      isPasswordSaving: false,
       clubName: '',
       oldPassword: '',
       newPassword: '',
@@ -89,7 +90,7 @@ class Account extends Component {
 
     this.setState({ isDetailsSaving: true });
 
-    this.props.updateClubDetails({ clubName })
+    this.props.updateClubName(clubName)
       .then(() => this.props.notifications.showSuccess('Club details updated successfully.'))
       .catch(() => this.props.notifications.showError('Unable to save. Please try again.'))
       .finally(() => this.setState({ isDetailsSaving: false }))
@@ -97,6 +98,18 @@ class Account extends Component {
 
   onSavePassword = () => {
     console.log('Gotta save password');
+    const { oldPassword, newPassword, confirmNewPassword } = this.state;
+
+    if (newPassword !== confirmNewPassword) {
+      return this.props.notifications.showError('Passwords do not match.')
+    }
+
+    this.setState({ isPasswordSaving: true });
+
+    return this.props.changePassword(oldPassword, newPassword)
+      .then(() => this.props.notifications.showSuccess('Password changed successfully.'))
+      .catch(() => this.props.notifications.showError('Unable to save. Please try again.'))
+      .finally(() => this.setState({ isPasswordSaving: false }))
   }
 
   handleLogout = () => {
@@ -117,7 +130,7 @@ class Account extends Component {
     this.setState({ isLogoUploading: true });
 
     // Call the redux action to save the club logo
-    this.props.updateLogo(file)
+    this.props.updateClubLogo(file)
       .then(() => {
         // Wait a little more to let the <img> load to catchup.
         setTimeout(() => {
@@ -147,6 +160,7 @@ class Account extends Component {
     const {
       isLogoUploading,
       isDetailsSaving,
+      isPasswordSaving,
       clubName,
       oldPassword,
       newPassword,
@@ -212,7 +226,7 @@ class Account extends Component {
           </div>
 
           <div className="wide-space-above">
-            <Button type='button' onClick={this.onSavePassword}>Save</Button>
+            <Button type='button' onClick={this.onSavePassword} isLoading={isPasswordSaving}>Save</Button>
           </div>
         </BaseCard>
 

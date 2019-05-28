@@ -83,10 +83,6 @@
  * 																															*
  ****************************************************************/
 
-.card-look {
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
-  border-radius: 5px;
-}
 
 .cursor-pointer {
 	cursor: pointer;
@@ -99,6 +95,7 @@
 .fullwidth { width: 100%; }
 .fullheight { height: 100%; }
 
+.position-relative { position: relative; }
 .position-absolute { position: absolute; }
 .bottom0 { bottom: 0; }
 .bottom10 { bottom: 10px; }

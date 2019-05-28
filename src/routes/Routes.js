@@ -4,23 +4,15 @@ import { Route, Switch, withRouter } from "react-router-dom";
 import Home from "../containers/Home/Home";
 import Main from "../containers/Main/Main";
 import Account from "../containers/Account/Account";
-
+import Authentication from "../containers/Authentication/Authentication";
 import Members from "../containers/Members/Members";
 import MembersCreate from "../containers/Members/MembersCreate";
 import MembersEdit from "../containers/Members/MembersEdit";
 import MembersDelete from "../containers/Members/MembersDelete";
-
 import Tournaments from "../containers/Tournaments/Tournaments";
-
 import NotFound from "../containers/NotFound/NotFound";
-import Login from "../containers/Login/Login";
-import Signup from "../containers/Signup/Signup";
-import ForgotPassword from "../containers/ForgotPassword/ForgotPassword";
-import ResetPassword from "../containers/ResetPassword/ResetPassword";
-import SocialRedirect from "../containers/SocialRedirect/SocialRedirect";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Buttons from "../components/Showcase/Buttons";
-
 import AuthenticatedRoute from "../hocs/AuthenticatedRoute";
 import UnauthenticatedRoute from "../hocs/UnauthenticatedRoute";
 
@@ -29,6 +21,7 @@ import UnauthenticatedRoute from "../hocs/UnauthenticatedRoute";
  * Currently used for signup/signin routes, but might be used elsewhere in the future.
  */
 const routesWithoutSidebar = [
+  'authentication',
   'login',
   'signup',
   'forgotpassword',
@@ -38,7 +31,8 @@ const routesWithoutSidebar = [
 
 const Router = ({ childProps, location }) => {
   const hideSidebar = routesWithoutSidebar.some(route => {
-    return location.pathname.includes(route) || location.pathname === '/';
+    // Add '/' url too as an exact match cause 'includes' would match everything
+    return location.pathname.toLowerCase().includes(route) || location.pathname === '/';
   });
 
   /**
@@ -58,11 +52,7 @@ const Router = ({ childProps, location }) => {
     <Switch>
       <AuthenticatedRoute path="/" exact component={Main} props={childProps} />
 
-      <UnauthenticatedRoute path="/login" exact component={Login} props={childProps} />
-      <UnauthenticatedRoute path="/signup" exact component={Signup} props={childProps} />
-      <UnauthenticatedRoute path="/forgotpassword" exact component={ForgotPassword} props={childProps} />
-      <UnauthenticatedRoute path="/resetpassword/:token" exact component={ResetPassword} props={childProps} />
-      <UnauthenticatedRoute path="/socialredirect" exact component={SocialRedirect} props={childProps} />
+      <UnauthenticatedRoute path="/authentication" component={Authentication} props={childProps} />
 
       <AuthenticatedRoute path="/clubs/:clubId" exact component={Home} props={childProps} />
       <AuthenticatedRoute path="/clubs/:clubId/account" exact component={Account} props={childProps} />

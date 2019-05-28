@@ -102,7 +102,7 @@ class ResponsiveDrawer extends React.Component {
   }
 
   renderLogo() {
-    if (this.props.club.current.logoUrl) {
+    if (this.props.club.current && this.props.club.current.logoUrl) {
       return (
         <Img
           src={`${config.s3BucketUrl}/${this.props.club.current.logoUrl}`}

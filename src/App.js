@@ -22,6 +22,8 @@ import {
   faUserPlus,
   faSearch,
   faUserTie,
+  faUnlockAlt,
+  faUserFriends,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -48,6 +50,8 @@ library.add(
   faUserPlus,
   faSearch,
   faUserTie,
+  faUnlockAlt,
+  faUserFriends,
 );
 
 class App extends Component {
