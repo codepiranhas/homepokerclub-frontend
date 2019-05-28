@@ -69,7 +69,7 @@ class ForgotPassword extends Component {
           <h2 className="space-above super-wide-space-below text-center">Reset my password.</h2>
 
           <div className="space-below flex-1">
-            <Input onChange={this.handleInputChange} name="email" type="email" icon={'user-tie'} placeholder="Email" />
+            <Input onChange={this.handleInputChange} name="email" type="email" size="small" icon={'user-tie'} placeholder="Email" />
           </div>
 
           <div className="authentication__button_submit">

@@ -15,6 +15,7 @@ import ForgotPassword from './ForgotPassword';
 import NotFound from './NotFound';
 
 import './Authentication.css';
+import GuestAccess from './GuestAccess';
 
 
 // const AnimationContainer = posed.div({
@@ -84,6 +85,7 @@ class Authentication extends Component {
                 <Route path={`${this.props.match.path}/login`} exact component={Login} />
                 <Route path={`${this.props.match.path}/register`}exact component={Register} />
                 <Route path={`${this.props.match.path}/forgotpassword`}exact component={ForgotPassword} />
+                <Route path={`${this.props.match.path}/guest`}exact component={GuestAccess} />
 
                 { /* Finally, catch all unmatched routes */ }
                 <Route component={NotFound} />

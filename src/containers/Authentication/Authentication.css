@@ -100,3 +100,8 @@
   }
 }
 
+@media only screen and (max-width: 325px) {
+  .authentication__logo_mobile {
+    display: none;
+  }
+}
