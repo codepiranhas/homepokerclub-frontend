@@ -1,3 +1,8 @@
+/**
+ * Not used anywhere, but kept for demonstration reasons
+ */
+
+
 import React, { Component } from "react";
 import "./SocialRedirect.css";
 import { connect } from 'react-redux';

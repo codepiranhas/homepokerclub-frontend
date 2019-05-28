@@ -55,10 +55,6 @@ class Login extends Component {
       });
   };
 
-  onLogin = () => {
-    console.log('login now')
-  }
-
   render() {
     return (
       <div className="authentication__form">
