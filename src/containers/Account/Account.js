@@ -172,7 +172,7 @@ class Account extends Component {
         {this.renderLogo()}
 
         <section className="wide-space-around display-flex flex-justify-center">
-          <Button onClick={this.onUploadAvatar} isLoading={isLogoUploading} type="button" variant="primary" size="small">Upload Logo</Button>
+          <Button onClick={this.onUploadAvatar} isLoading={isLogoUploading} type="button" variant="plain" size="small">Upload Logo</Button>
           
           <input
             type="file"

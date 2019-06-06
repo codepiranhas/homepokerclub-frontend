@@ -24,6 +24,7 @@ import {
   faUserTie,
   faUnlockAlt,
   faUserFriends,
+  faArrowLeft,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -37,6 +38,7 @@ import {
 library.add(
   faTrashAlt,
   faPencilAlt,
+  faArrowLeft,
   faEdit,
   faSyncAlt,
   faTrophy,

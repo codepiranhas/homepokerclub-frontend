@@ -2,19 +2,22 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
 import { withNotifications } from "../../hocs/WithNotifications";
-// import styled from "styled-components";
+import MediaQuery from 'react-responsive';
 import { appActions, tournamentActions } from "../../actions";
 import Button from '../../components/Button/Button';
 import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator';
+import history from '../../helpers/history';
 
 import './Tournaments.css';
+import TournamentCard from "../../components/TournamentCard/TournamentCard";
 
 const fakeTournament = {
   name: 'Tournament name',
   buyIn: 50,
   maxPlayers: 9,
   startingChips: 2000,
-  startingBlinds: [10, 20],
+  blinds: { small: 10, big: 20 },
+  payoutOptions: { positions: 3, distribution: 'default' },
   levelDuration: 15,
   startDate: Date.now(),
 }
@@ -38,9 +41,10 @@ class Tournaments extends Component {
     this.props.getTournaments();
   }
 
-  onNewTournament = () => {
-    console.log('creating new tournament');
-    this.props.createTournament(fakeTournament);
+  handleCreateTournament = () => {
+    console.log('Creating a new tournament');
+    console.log('this.props.history: ', this.props.history);
+    this.props.history.push('tournaments/create')
   }
 
   renderLoading() {
@@ -53,19 +57,29 @@ class Tournaments extends Component {
 
   render() {
     if (this.props.tournament.isLoading) { return this.renderLoading(); }
-    console.log('this.props: ', this.props);
+    
     return (
       <div className="tournaments-container">
-        <Button onClick={this.onNewTournament}>New Tournament</Button>
 
-        <div className="tournaments-grid">
+        <MediaQuery query="(min-width: 700px)">
+          <div className="display-flex flex-justify-end">
+            <Button onClick={this.handleCreateTournament} size="large">New Tournament</Button>
+          </div>
+        </MediaQuery>
+
+        <MediaQuery query="(max-width: 699px)">
+        <div>
+            <Button onClick={this.handleCreateTournament} fullwidth size="large">New Tournament</Button>
+          </div>
+        </MediaQuery>
+
+        <div className="tournaments-grid wide-space-above super-wide-space-below">
           {this.props.tournament.all.map(tournament => {
             return (
-              <div key={tournament._id}>
-                {tournament.name}
-                {tournament.buyIn}
-                {tournament.createdAt}
-              </div>
+              <TournamentCard 
+                key={tournament._id}
+                name={tournament.name}
+              />
             )
           })}
         </div>

@@ -96,7 +96,6 @@ class Authentication extends Component {
   }
 
   onTabClick = (url) => {
-    console.log('clicked: ', url)
     this.props.history.push(`/authentication/${url}`);
   };
   
