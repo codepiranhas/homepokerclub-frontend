@@ -15,6 +15,7 @@ import Sidebar from "../components/Sidebar/Sidebar";
 import Buttons from "../components/Showcase/Buttons";
 import AuthenticatedRoute from "../hocs/AuthenticatedRoute";
 import UnauthenticatedRoute from "../hocs/UnauthenticatedRoute";
+import TournamentsCreate from "../containers/Tournaments/TournamentsCreate";
 
 /**
  * Here we set all the routes that we do not want to render a sidebar
@@ -62,6 +63,7 @@ const Router = ({ childProps, location }) => {
       <AuthenticatedRoute path="/clubs/:clubId/members/:memberId/delete" exact component={MembersDelete} props={childProps} />
 
       <AuthenticatedRoute path="/clubs/:clubId/tournaments" exact component={Tournaments} props={childProps} />
+      <AuthenticatedRoute path="/clubs/:clubId/tournaments/create" exact component={TournamentsCreate} props={childProps} />
 
       {/* SHOWCASE */}
       <AuthenticatedRoute path="/buttons" exact component={Buttons} props={childProps} />

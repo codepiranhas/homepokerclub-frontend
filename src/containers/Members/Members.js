@@ -51,19 +51,19 @@ class Members extends Component {
     return (
       <div className="fullwidth wide-space-above">     
         <MediaQuery query="(min-width: 700px)">
-          <div className="xx display-flex flex-justify-end wide-space-below">
+          <div className="display-flex flex-justify-end wide-space-below">
             <div className="members-filterbar flex-auto space-right">
               <Input onChange={this.handleFilter} icon={'search'} fullwidth placeholder="Type to filter members" />
             </div>
             <div className="members-add-new">
-              <Button onClick={this.handleCreateMember} size="large" width="180" height="60">Add New</Button>
+              <Button onClick={this.handleCreateMember} size="large" width="180" height="60">New Member</Button>
             </div>
           </div>
         </MediaQuery>
 
         <MediaQuery query="(max-width: 699px)">
           <div className="wide-space-below">
-            <Button onClick={this.handleCreateMember} size="large" fullwidth>Add New</Button>
+            <Button onClick={this.handleCreateMember} size="large" fullwidth>New Member</Button>
           </div>
           <div className="space-below">
             <Input onChange={this.handleFilter} size='small' icon={'search'} fullwidth placeholder="Type to filter members" />

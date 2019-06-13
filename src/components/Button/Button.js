@@ -77,7 +77,7 @@ const sizes = {
 const BaseButton = styled.button`
   width: ${props => props.fullwidth ? '100%' : props.width ? props.width + 'px' : 'auto'};
   height: ${props => props.height ? props.height + 'px' : sizes[props.size].height};
-  
+
   display: inline-flex;
   justify-content: ${props => props.icon ? 'space-between' : 'center'};
   align-items: center;

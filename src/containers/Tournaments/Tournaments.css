@@ -1,14 +1,20 @@
 .tournaments-grid { 
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(450px, 0.7fr));
-  grid-gap: 20px;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+	grid-gap: 20px;
 	align-items: stretch;
 	justify-content: center;
-	}
+}
 
-
-@media screen and (max-width: 824px) {
+@media screen and (min-width: 824px) {
 	.tournaments-grid { 
-		grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(350px, 0.5fr));
+	}
+}
+
+@media screen and (min-width: 1800px) {
+	.tournaments-grid { 
+		grid-template-columns: repeat(auto-fill, minmax(450px, 0.7fr));
+		grid-gap: 30px;
 	}
 }

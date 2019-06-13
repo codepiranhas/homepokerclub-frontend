@@ -85,6 +85,7 @@ const InputComponent = ({ value, placeholder, autoFocus, name, type, onChange, f
       }
       <Input
         value={value}
+        disabled={isDisabled}
         autoFocus={autoFocus}
         type={type}
         name={name}
