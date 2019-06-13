@@ -62,9 +62,9 @@ class ForgotPassword extends Component {
     return (
       <div className="authentication__form">
         <form onSubmit={this.handleReset}>
-          <div className="authentication__logo_mobile">
+          {/* <div className="authentication__logo_mobile">
             <FontAwesomeIcon icon={'user-friends'} size="5x" />
-          </div>
+          </div> */}
 
           <h2 className="space-above super-wide-space-below text-center">Reset my password.</h2>
 

@@ -92,9 +92,9 @@ class Authentication extends Component {
               </Switch>
             </div>
 
-            <div className="authentication__background_icon">
+            {/* <div className="authentication__background_icon">
               <FontAwesomeIcon icon={'user-friends'} />
-            </div>
+            </div> */}
 
             <div className="authentication__sidebar_mobile">
               <SidebarMobile />

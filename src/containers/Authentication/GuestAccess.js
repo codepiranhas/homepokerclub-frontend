@@ -60,9 +60,9 @@ class GuestAccess extends Component {
     return (
       <div className="authentication__form">
         <form onSubmit={this.handleLogin}>
-          <div className="authentication__logo_mobile">
+          {/* <div className="authentication__logo_mobile">
             <FontAwesomeIcon icon={'user-friends'} size="5x" />
-          </div>
+          </div> */}
 
           <h2 className="space-above wide-space-below text-center">View your favorite club</h2>
           <P className="space-below">Type your clubs secret code below to gain access to the clubs page.</P>
